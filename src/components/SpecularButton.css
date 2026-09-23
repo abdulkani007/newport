@@ -139,3 +139,25 @@
   color: var(--primary);
   border-color: var(--primary-border);
 }
+
+@media (max-width: 600px) {
+  .btn-specular-primary,
+  .btn-specular-secondary {
+    width: 100% !important;
+    max-width: 100%;
+    justify-content: center !important;
+    padding: 12px 20px !important;
+    font-size: 0.8rem !important;
+    box-sizing: border-box !important;
+  }
+
+  .hero-badge-specular {
+    font-size: 0.78rem;
+    padding: 8px 14px;
+  }
+
+  .social-pill-specular {
+    width: 44px !important;
+    height: 44px !important;
+  }
+}

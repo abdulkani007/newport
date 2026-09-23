@@ -1554,14 +1554,21 @@ h1, h2, h3, h4, h5, h6 {
   50% { opacity: 0; }
 }
 
+/* GLOBAL VIEWPORT SAFETY */
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
 /* RESPONSIVE DESIGN */
 @media (max-width: 992px) {
   .hero-grid {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 36px;
   }
   .hero-left-visual {
     order: -1;
+    margin: 0 auto;
   }
   .capabilities-grid, .cert-grid, .achievements-grid, .skills-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1572,30 +1579,23 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 768px) {
-  .nav-menu {
-    position: fixed;
-    top: 70px;
-    left: 0;
-    width: 100%;
-    background: var(--card-bg);
-    flex-direction: column;
-    padding: 24px;
-    gap: 16px;
-    border-bottom: 1px solid var(--card-border);
-    transform: translateY(-150%);
-    transition: transform 0.3s ease;
+  .hero-title {
+    font-size: clamp(2rem, 7vw, 2.8rem);
   }
-  .nav-menu.active {
-    transform: translateY(0);
+  .hero-subtitle {
+    font-size: 1rem;
+    line-height: 1.6;
+    text-align: center;
   }
-  .hamburger {
-    display: flex;
+  .hero-right-content {
+    align-items: center;
+    text-align: center;
+  }
+  .status-badge {
+    align-self: center;
   }
   .project-grid, .coding-grid, .capabilities-grid, .cert-grid, .achievements-grid, .skills-grid {
     grid-template-columns: 1fr;
-  }
-  .hero-title {
-    font-size: 1.85rem;
   }
   .marquee-container {
     justify-content: center;
@@ -1603,9 +1603,59 @@ h1, h2, h3, h4, h5, h6 {
   .hero-left-visual {
     max-width: 320px;
     height: 380px;
+    margin: 0 auto;
   }
   .hero-photo-wrapper {
     width: 210px;
     height: 280px;
+  }
+  .hero-badges {
+    justify-content: center;
+  }
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+  }
+  .social-pills {
+    justify-content: center;
+    width: 100%;
+  }
+  .container {
+    padding: 0 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.85rem;
+  }
+  .hero-left-visual {
+    max-width: 270px;
+    height: 330px;
+  }
+  .hero-photo-wrapper {
+    width: 175px;
+    height: 235px;
+  }
+  .pill-cgpa {
+    right: -2px;
+    top: 8%;
+    padding: 6px 10px;
+  }
+  .pill-skillrack {
+    left: -2px;
+    bottom: 6%;
+    padding: 6px 10px;
+  }
+  .floating-stat-pill .pill-val {
+    font-size: 0.8rem;
+  }
+  .floating-stat-pill .pill-lbl {
+    font-size: 0.5rem;
+  }
+  .status-badge {
+    font-size: 0.62rem;
+    padding: 5px 10px;
   }
 }
