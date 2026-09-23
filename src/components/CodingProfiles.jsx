@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import Shuffle from './Shuffle';
+import BorderGlow from './BorderGlow';
 
 function StatCounter({ target, label }) {
   const countRef = useRef(null);
@@ -69,42 +70,46 @@ export default function CodingProfiles() {
             href="https://leetcode.com/u/Abbu_007/"
             target="_blank"
             rel="noreferrer"
-            className="card coding-card"
+            style={{ textDecoration: 'none', color: 'inherit' }}
           >
-            <div className="coding-card-top">
-              <div className="coding-platform-title">
-                <i className="fas fa-code"></i>
-                <span>LeetCode</span>
+            <BorderGlow className="coding-card">
+              <div className="coding-card-top">
+                <div className="coding-platform-title">
+                  <i className="fas fa-code"></i>
+                  <span>LeetCode</span>
+                </div>
+                <div className="rank-badge">Rank: 621,246</div>
               </div>
-              <div className="rank-badge">Rank: 621,246</div>
-            </div>
 
-            <div className="stat-counter-wrapper">
-              <StatCounter target="230" label="Problems Solved" />
-              <StatCounter target="24" label="Max Streak" />
-              <StatCounter target="100" label="Active Days" />
-            </div>
+              <div className="stat-counter-wrapper">
+                <StatCounter target="230" label="Problems Solved" />
+                <StatCounter target="24" label="Max Streak" />
+                <StatCounter target="100" label="Active Days" />
+              </div>
+            </BorderGlow>
           </a>
 
           <a
             href="https://www.skillrack.com/faces/resume.xhtml?id=515445&key=8067d22b7b62e8ff15f4bc28fad9987419437ae7"
             target="_blank"
             rel="noreferrer"
-            className="card coding-card"
+            style={{ textDecoration: 'none', color: 'inherit' }}
           >
-            <div className="coding-card-top">
-              <div className="coding-platform-title">
-                <i className="fas fa-laptop-code"></i>
-                <span>SkillRack</span>
+            <BorderGlow className="coding-card">
+              <div className="coding-card-top">
+                <div className="coding-platform-title">
+                  <i className="fas fa-laptop-code"></i>
+                  <span>SkillRack</span>
+                </div>
               </div>
-            </div>
 
-            <div className="stat-counter-wrapper">
-              <StatCounter target="1120" label="Problems Solved" />
-            </div>
+              <div className="stat-counter-wrapper">
+                <StatCounter target="1120" label="Problems Solved" />
+              </div>
+            </BorderGlow>
           </a>
 
-          <div className="card coding-card">
+          <BorderGlow className="coding-card">
             <div className="coding-card-top">
               <div className="coding-platform-title">
                 <i className="fas fa-trophy"></i>
@@ -116,44 +121,46 @@ export default function CodingProfiles() {
             <div className="stat-counter-wrapper">
               <StatCounter target="300" label="Problems Solved" />
             </div>
-          </div>
+          </BorderGlow>
 
           <a
             href="https://www.hackerrank.com/profile/abdulkani_b20241"
             target="_blank"
             rel="noreferrer"
-            className="card coding-card"
+            style={{ textDecoration: 'none', color: 'inherit' }}
           >
-            <div className="coding-card-top">
-              <div className="coding-platform-title">
-                <i className="fas fa-star"></i>
-                <span>HackerRank</span>
+            <BorderGlow className="coding-card">
+              <div className="coding-card-top">
+                <div className="coding-platform-title">
+                  <i className="fas fa-star"></i>
+                  <span>HackerRank</span>
+                </div>
+                <div className="rank-badge">Certified Solver</div>
               </div>
-              <div className="rank-badge">Certified Solver</div>
-            </div>
 
-            <div className="hackerrank-badges">
-              <div className="badge-item">
-                <span className="badge-stars">★★★★★</span>
-                <span>Java</span>
+              <div className="hackerrank-badges">
+                <div className="badge-item">
+                  <span className="badge-stars">★★★★★</span>
+                  <span>Java</span>
+                </div>
+                <div className="badge-item">
+                  <span className="badge-stars">★★</span>
+                  <span>C++</span>
+                </div>
+                <div className="badge-item">
+                  <span className="badge-stars">★★</span>
+                  <span>SQL</span>
+                </div>
+                <div className="badge-item">
+                  <span className="badge-stars">★</span>
+                  <span>C</span>
+                </div>
+                <div className="badge-item">
+                  <span className="badge-stars">★</span>
+                  <span>Python</span>
+                </div>
               </div>
-              <div className="badge-item">
-                <span className="badge-stars">★★</span>
-                <span>C++</span>
-              </div>
-              <div className="badge-item">
-                <span className="badge-stars">★★</span>
-                <span>SQL</span>
-              </div>
-              <div className="badge-item">
-                <span className="badge-stars">★</span>
-                <span>C</span>
-              </div>
-              <div className="badge-item">
-                <span className="badge-stars">★</span>
-                <span>Python</span>
-              </div>
-            </div>
+            </BorderGlow>
           </a>
         </div>
       </div>

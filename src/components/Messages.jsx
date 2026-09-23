@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Shuffle from './Shuffle';
+import BorderGlow from './BorderGlow';
 
 export default function Messages({ showToast, refreshTrigger }) {
   const [messages, setMessages] = useState([]);
@@ -56,7 +57,7 @@ export default function Messages({ showToast, refreshTrigger }) {
           triggerOnHover={true}
         />
 
-        <div className="card messages-card">
+        <BorderGlow className="messages-card">
           <div className="messages-header">
             <h3>Messages sent to abdulkani180607@gmail.com</h3>
             <button className="btn-clear" onClick={handleClearAll}>
@@ -106,7 +107,7 @@ export default function Messages({ showToast, refreshTrigger }) {
               <p>No messages yet. Messages will appear here after submission.</p>
             </div>
           )}
-        </div>
+        </BorderGlow>
       </div>
     </section>
   );

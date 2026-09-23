@@ -1,5 +1,6 @@
 import React from 'react';
 import Shuffle from './Shuffle';
+import BorderGlow from './BorderGlow';
 
 export default function About() {
   return (
@@ -19,7 +20,7 @@ export default function About() {
         />
 
         <div className="about-grid">
-          <div className="card about-desc-card">
+          <BorderGlow className="about-desc-card">
             <p>
               I am a B.Tech IT student at Sri Eshwar College of Engineering (2024-2028) with a CGPA of 8.07, passionate about full-stack development, AI systems, and intelligent automation. I specialize in building scalable web applications, AI-powered platforms, and real-time systems using React, Node.js, MongoDB, and Firebase.
             </p>
@@ -29,10 +30,10 @@ export default function About() {
             <p>
               With a strong foundation in competitive programming, I have solved 1120+ problems on SkillRack, 230+ on LeetCode, and 300+ on CodeChef. Certified 5-star Java problem solver on HackerRank, with awards at PSG Tech (Ripple Room Runner-up) and KPR College (2nd Prize Paper Presentation).
             </p>
-          </div>
+          </BorderGlow>
 
           <div className="capabilities-grid">
-            <div className="card capability-card">
+            <BorderGlow className="capability-card">
               <h4>Frontend & Interface</h4>
               <p>Crafting responsive, high-performance web interfaces with modern React frameworks and clean component architecture.</p>
               <ul className="capability-list">
@@ -41,9 +42,9 @@ export default function About() {
                 <li>JavaScript (ES6+)</li>
                 <li>Responsive UI Architecture</li>
               </ul>
-            </div>
+            </BorderGlow>
 
-            <div className="card capability-card">
+            <BorderGlow className="capability-card">
               <h4>Backend & AI Systems</h4>
               <p>Designing secure backend APIs, database models, and intelligent AI automation integrations.</p>
               <ul className="capability-list">
@@ -52,9 +53,9 @@ export default function About() {
                 <li>MySQL Database Schemas</li>
                 <li>Python Speech & GPT Automation</li>
               </ul>
-            </div>
+            </BorderGlow>
 
-            <div className="card capability-card">
+            <BorderGlow className="capability-card">
               <h4>Problem Solving & Data</h4>
               <p>Demonstrated competitive programming efficiency and quantitative data visual analytics.</p>
               <ul className="capability-list">
@@ -63,7 +64,7 @@ export default function About() {
                 <li>HackerRank 5-Star Java</li>
                 <li>Power BI & Matplotlib</li>
               </ul>
-            </div>
+            </BorderGlow>
           </div>
         </div>
       </div>

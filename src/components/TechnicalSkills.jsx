@@ -1,5 +1,6 @@
 import React from 'react';
 import Shuffle from './Shuffle';
+import BorderGlow from './BorderGlow';
 
 const skillGroups = [
   {
@@ -53,7 +54,7 @@ export default function TechnicalSkills() {
 
         <div className="skills-grid">
           {skillGroups.map((group, idx) => (
-            <div key={idx} className="card skill-card">
+            <BorderGlow key={idx} className="skill-card">
               <div className="skill-card-header">
                 <i className={group.icon}></i>
                 <h3>{group.title}</h3>
@@ -65,7 +66,7 @@ export default function TechnicalSkills() {
                   </span>
                 ))}
               </div>
-            </div>
+            </BorderGlow>
           ))}
         </div>
       </div>

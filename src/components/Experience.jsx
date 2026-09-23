@@ -1,5 +1,6 @@
 import React from 'react';
 import Shuffle from './Shuffle';
+import BorderGlow from './BorderGlow';
 
 export default function Experience() {
   return (
@@ -19,7 +20,7 @@ export default function Experience() {
         />
 
         <div className="timeline">
-          <div className="card timeline-card">
+          <BorderGlow className="timeline-card">
             <div className="timeline-header">
               <div>
                 <h3 className="timeline-role">Web Development Intern</h3>
@@ -35,7 +36,7 @@ export default function Experience() {
               <li>Integrated MongoDB database for efficient real-time data management</li>
               <li>Managed seamless data flow and security between frontend and backend systems</li>
             </ul>
-          </div>
+          </BorderGlow>
         </div>
       </div>
     </section>

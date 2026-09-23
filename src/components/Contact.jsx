@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import BellToggle from './BellToggle';
 import Shuffle from './Shuffle';
+import BorderGlow from './BorderGlow';
 
 export default function Contact({ showToast, onMessageSaved }) {
   const [formData, setFormData] = useState({
@@ -103,7 +104,7 @@ export default function Contact({ showToast, onMessageSaved }) {
         </div>
 
         <div className="contact-grid">
-          <div className="card contact-info-card">
+          <BorderGlow className="contact-info-card">
             <div className="contact-item">
               <i className="fas fa-envelope"></i>
               <div>
@@ -129,9 +130,9 @@ export default function Contact({ showToast, onMessageSaved }) {
                 <p>Pennadam, Cuddalore, Tamil Nadu, India - 606105</p>
               </div>
             </div>
-          </div>
+          </BorderGlow>
 
-          <div className="card contact-form-card">
+          <BorderGlow className="contact-form-card">
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label htmlFor="name">Name</label>
@@ -193,7 +194,7 @@ export default function Contact({ showToast, onMessageSaved }) {
                 {loading ? 'Sending...' : 'Send Message'}
               </button>
             </form>
-          </div>
+          </BorderGlow>
         </div>
       </div>
     </section>

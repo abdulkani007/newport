@@ -1,5 +1,6 @@
 import React from 'react';
 import Shuffle from './Shuffle';
+import BorderGlow from './BorderGlow';
 
 const achievementsData = [
   {
@@ -59,7 +60,7 @@ export default function Achievements() {
 
         <div className="achievements-grid">
           {achievementsData.map((item, idx) => (
-            <div key={idx} className="card achievement-card">
+            <BorderGlow key={idx} className="achievement-card">
               <div className="achievement-icon">
                 <i className={item.icon}></i>
               </div>
@@ -68,7 +69,7 @@ export default function Achievements() {
                 <p>{item.subtitle}</p>
                 <span className="achievement-venue">{item.venue}</span>
               </div>
-            </div>
+            </BorderGlow>
           ))}
         </div>
       </div>

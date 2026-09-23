@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import BorderGlow from './BorderGlow';
 
 export default function ProjectCard({ role, year, images, title, description, features, tech, githubUrl }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -43,8 +44,8 @@ export default function ProjectCard({ role, year, images, title, description, fe
   };
 
   return (
-    <div
-      className="card project-card"
+    <BorderGlow
+      className="project-card"
       onMouseEnter={pauseAutoSlide}
       onMouseLeave={startAutoSlide}
     >
@@ -107,6 +108,6 @@ export default function ProjectCard({ role, year, images, title, description, fe
           </a>
         </div>
       </div>
-    </div>
+    </BorderGlow>
   );
 }
