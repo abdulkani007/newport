@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import ScrambledText from './ScrambledText';
 
 export default function Hero() {
   const fullText = "Hello !! This is Abdul Kani";
@@ -175,9 +176,15 @@ export default function Hero() {
               </span>
             </h1>
 
-            <p className="hero-subtitle">
+            <ScrambledText
+              className="hero-subtitle"
+              radius={100}
+              duration={1.2}
+              speed={0.5}
+              scrambleChars=".:#@$%&*"
+            >
               Building scalable web applications, AI platforms, and competitive programming solutions with clean code, structural precision, and timeless design.
-            </p>
+            </ScrambledText>
 
             <div className="hero-badges">
               <span className="hero-badge">Frontend Engineering</span>

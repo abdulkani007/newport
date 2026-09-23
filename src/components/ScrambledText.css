@@ -1,0 +1,20 @@
+.text-block {
+  display: block;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.text-block p {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+.char {
+  will-change: transform;
+  display: inline-block;
+  white-space: pre;
+}
