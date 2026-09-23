@@ -1,9 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 export default function Hero() {
   const fullText = "Hello !! This is Abdul Kani";
   const [typedContent, setTypedContent] = useState('');
   const [isTypingComplete, setIsTypingComplete] = useState(false);
+  const visualRef = useRef(null);
+
+  const [tiltStyle, setTiltStyle] = useState({
+    transform: 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)',
+    transition: 'transform 0.5s ease-out',
+  });
 
   useEffect(() => {
     let index = 0;
@@ -45,17 +51,46 @@ export default function Hero() {
     }
   };
 
+  // 3D Parallax Tilt Effect matching Keyvo Motion
+  const handleMouseMove = (e) => {
+    if (!visualRef.current) return;
+    const rect = visualRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    const rotateX = (-y / rect.height) * 18;
+    const rotateY = (x / rect.width) * 18;
+
+    setTiltStyle({
+      transform: `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale(1.03)`,
+      transition: 'transform 0.1s ease-out',
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setTiltStyle({
+      transform: 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)',
+      transition: 'transform 0.6s ease-out',
+    });
+  };
+
   return (
     <section id="home" className="hero-section">
       <div className="container">
         <div className="hero-grid">
-          {/* LEFT COLUMN: ANIMATED GEOMETRIC PHOTO FRAME */}
-          <div className="hero-left-visual">
+          {/* LEFT COLUMN: KEYVO 3D PARALLAX & ANIMATED GEOMETRIC FRAME */}
+          <div
+            className="hero-left-visual"
+            ref={visualRef}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            style={tiltStyle}
+          >
             {/* Ambient Glowing Orbs */}
             <div className="glow-orb orb-1"></div>
             <div className="glow-orb orb-2"></div>
+            <div className="glow-orb orb-center"></div>
 
-            {/* Smooth Floating Geometric Triangle Frame */}
+            {/* Smooth Floating Geometric Triangle Frame with Traveling Laser */}
             <div className="geo-triangle-wrapper">
               <svg viewBox="0 0 500 500" className="geo-triangle-svg">
                 <defs>
@@ -64,19 +99,40 @@ export default function Hero() {
                     <stop offset="50%" stopColor="#f87171" />
                     <stop offset="100%" stopColor="#dc2626" />
                   </linearGradient>
+
+                  <linearGradient id="laserGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#ffffff" />
+                    <stop offset="50%" stopColor="#ef4444" />
+                    <stop offset="100%" stopColor="#b91c1c" />
+                  </linearGradient>
+
                   <filter id="redGlow" x="-30%" y="-30%" width="160%" height="160%">
                     <feGaussianBlur stdDeviation="6" result="blur" />
                     <feComposite in="SourceGraphic" in2="blur" operator="over" />
                   </filter>
                 </defs>
+
+                {/* Base Stroke */}
                 <path
                   d="M 410 60 L 65 230 Q 45 245 65 260 L 395 450 Q 415 465 430 445 L 435 80 Q 440 60 410 60 Z"
                   fill="none"
                   stroke="url(#redGrad)"
-                  strokeWidth="5"
+                  strokeWidth="4"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   filter="url(#redGlow)"
+                  opacity="0.8"
+                />
+
+                {/* Traveling Crimson Laser Beam */}
+                <path
+                  d="M 410 60 L 65 230 Q 45 245 65 260 L 395 450 Q 415 465 430 445 L 435 80 Q 440 60 410 60 Z"
+                  fill="none"
+                  stroke="url(#laserGrad)"
+                  strokeWidth="6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="geo-laser-stroke"
                 />
               </svg>
             </div>
@@ -90,7 +146,7 @@ export default function Hero() {
               />
             </div>
 
-            {/* Floating Role Pills (UI Designer & AI Enthusiast) */}
+            {/* Floating Role Pills */}
             <div className="floating-stat-pill pill-cgpa">
               <span className="pill-val">UI/UX Designer</span>
               <span className="pill-lbl">Interface & Motion</span>
