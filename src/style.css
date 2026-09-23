@@ -37,25 +37,25 @@ html {
 }
 
 [data-theme="light"] {
-  --bg-color: #ffffff;
+  --bg-color: #fafafc;
   --bg-secondary: #f4f4f7;
   --card-bg: #ffffff;
-  --card-hover: #fafafa;
-  --card-border: #e4e4e7;
-  --card-border-hover: #dc2626;
+  --card-hover: #f8fafc;
+  --card-border: #e2e8f0;
+  --card-border-hover: #ef4444;
   
-  --text-primary: #09090b;
-  --text-secondary: #52525b;
-  --text-muted: #71717a;
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
   
-  --primary: #dc2626;
-  --primary-hover: #b91c1c;
-  --primary-subtle: rgba(220, 38, 38, 0.08);
-  --primary-border: rgba(220, 38, 38, 0.3);
+  --primary: #ef4444;
+  --primary-hover: #dc2626;
+  --primary-subtle: rgba(239, 68, 68, 0.08);
+  --primary-border: rgba(239, 68, 68, 0.3);
   
-  --badge-bg: rgba(0, 0, 0, 0.03);
-  --badge-border: rgba(0, 0, 0, 0.08);
-  --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  --badge-bg: rgba(15, 23, 42, 0.04);
+  --badge-border: rgba(15, 23, 42, 0.1);
+  --shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
 }
 
 body {
@@ -83,6 +83,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .section {
   padding: 110px 0;
+  scroll-margin-top: 100px;
   border-bottom: 1px solid var(--card-border);
   position: relative;
 }

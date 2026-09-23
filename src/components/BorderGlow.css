@@ -24,15 +24,19 @@
     rgba(0, 0, 0, 0.1) 0px 32px 64px;
 }
 
-.border-glow-card--light {
-  border-color: rgb(24 24 27 / 12%);
+.border-glow-card--light,
+[data-theme="light"] .border-glow-card {
+  background: var(--card-bg, #ffffff);
+  border-color: var(--card-border, #e4e4e7);
   box-shadow:
-    rgb(24 24 27 / 4%) 0 1px 2px,
-    rgb(24 24 27 / 5%) 0 8px 24px;
+    rgba(0, 0, 0, 0.04) 0px 1px 2px,
+    rgba(0, 0, 0, 0.06) 0px 8px 24px;
 }
 
 .border-glow-card--light::after,
-.border-glow-card--light > .edge-light {
+.border-glow-card--light > .edge-light,
+[data-theme="light"] .border-glow-card::after,
+[data-theme="light"] .border-glow-card > .edge-light {
   mix-blend-mode: normal;
 }
 

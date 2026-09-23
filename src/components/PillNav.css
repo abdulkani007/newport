@@ -42,6 +42,13 @@
   background: var(--base, #050507);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 9999px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] .pill-nav-items {
+  background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .pill-logo {
@@ -56,6 +63,11 @@
   justify-content: center;
   overflow: hidden;
   text-decoration: none;
+}
+
+[data-theme="light"] .pill-logo {
+  background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.12);
 }
 
 .pill-logo-text {
@@ -107,6 +119,11 @@
   cursor: pointer;
   position: relative;
   overflow: hidden;
+}
+
+[data-theme="light"] .pill {
+  background: #f1f5f9;
+  color: #0f172a;
 }
 
 .pill .hover-circle {

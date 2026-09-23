@@ -63,7 +63,7 @@ const BorderGlow = ({
   className = '',
   edgeSensitivity = 30,
   glowColor = '0 84 60',
-  backgroundColor = '#0e0e11',
+  backgroundColor,
   borderRadius = 14,
   glowRadius = 30,
   glowIntensity = 1.0,
@@ -138,23 +138,27 @@ const BorderGlow = ({
   }, [animated]);
 
   const glowVars = buildGlowVars(glowColor, glowIntensity);
-  const lightSurface = isLightColor(backgroundColor);
+  const lightSurface = backgroundColor ? isLightColor(backgroundColor) : false;
+
+  const styleObj = {
+    '--edge-sensitivity': edgeSensitivity,
+    '--border-radius': `${borderRadius}px`,
+    '--glow-padding': `${glowRadius}px`,
+    '--cone-spread': coneSpread,
+    '--fill-opacity': fillOpacity,
+    ...glowVars,
+    ...buildGradientVars(colors),
+  };
+  if (backgroundColor) {
+    styleObj['--card-bg'] = backgroundColor;
+  }
 
   return (
     <div
       ref={cardRef}
       onPointerMove={handlePointerMove}
       className={`border-glow-card${lightSurface ? ' border-glow-card--light' : ''} ${className}`}
-      style={{
-        '--card-bg': backgroundColor,
-        '--edge-sensitivity': edgeSensitivity,
-        '--border-radius': `${borderRadius}px`,
-        '--glow-padding': `${glowRadius}px`,
-        '--cone-spread': coneSpread,
-        '--fill-opacity': fillOpacity,
-        ...glowVars,
-        ...buildGradientVars(colors),
-      }}
+      style={styleObj}
     >
       <span className="edge-light" />
       <div className="border-glow-inner">
