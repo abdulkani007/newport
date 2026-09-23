@@ -284,12 +284,162 @@ body {
 
 .hero-grid {
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
+  grid-template-columns: 1fr 1.2fr;
   gap: 56px;
   align-items: center;
 }
 
-.hero-left {
+/* HERO LEFT: ANIMATED GEOMETRIC PHOTO FRAME */
+.hero-left-visual {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  height: 480px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ambient Glowing Orbs */
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.orb-1 {
+  width: 180px;
+  height: 180px;
+  background: rgba(239, 68, 68, 0.25);
+  top: 10%;
+  left: 5%;
+  animation: pulseOrb1 8s ease-in-out infinite alternate;
+}
+
+.orb-2 {
+  width: 200px;
+  height: 200px;
+  background: rgba(239, 68, 68, 0.18);
+  bottom: 10%;
+  right: 5%;
+  animation: pulseOrb2 10s ease-in-out infinite alternate;
+}
+
+@keyframes pulseOrb1 {
+  0% { transform: scale(1) translate(0, 0); opacity: 0.6; }
+  100% { transform: scale(1.3) translate(20px, 15px); opacity: 0.9; }
+}
+
+@keyframes pulseOrb2 {
+  0% { transform: scale(1) translate(0, 0); opacity: 0.5; }
+  100% { transform: scale(1.25) translate(-15px, -20px); opacity: 0.8; }
+}
+
+/* Smooth Floating Geometric Triangle Frame */
+.geo-triangle-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  animation: floatTriangle 6s ease-in-out infinite alternate;
+}
+
+.geo-triangle-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+@keyframes floatTriangle {
+  0% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+  50% {
+    transform: translateY(-12px) rotate(2deg) scale(1.02);
+  }
+  100% {
+    transform: translateY(6px) rotate(-1.5deg) scale(0.99);
+  }
+}
+
+/* Photo Wrapper */
+.hero-photo-wrapper {
+  position: relative;
+  width: 260px;
+  height: 340px;
+  border-radius: 20px;
+  overflow: hidden;
+  z-index: 3;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  border: 1px solid var(--card-border);
+  transition: transform 0.4s ease, border-color 0.4s ease;
+}
+
+.hero-photo-wrapper:hover {
+  transform: scale(1.03);
+  border-color: var(--primary-border);
+}
+
+.hero-person-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Floating Quick Stat Pills */
+.floating-stat-pill {
+  position: absolute;
+  z-index: 4;
+  padding: 8px 16px;
+  border-radius: 50px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  animation: floatPill 5s ease-in-out infinite alternate;
+}
+
+.pill-cgpa {
+  top: 15%;
+  right: -10px;
+  animation-delay: 0s;
+}
+
+.pill-skillrack {
+  bottom: 12%;
+  left: -10px;
+  animation-delay: 2.5s;
+}
+
+@keyframes floatPill {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-8px); }
+}
+
+.floating-stat-pill .pill-val {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--primary);
+  line-height: 1;
+}
+
+.floating-stat-pill .pill-lbl {
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* HERO RIGHT CONTENT */
+.hero-right-content {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -438,94 +588,6 @@ body {
 .social-pill:hover {
   color: var(--primary);
   border-color: var(--primary-border);
-}
-
-/* HERO RIGHT: PROFILE CARD */
-.profile-card {
-  padding: 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.profile-header {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-}
-
-.profile-avatar-wrapper {
-  width: 84px;
-  height: 94px;
-  border-radius: 10px;
-  overflow: hidden;
-  border: 1px solid var(--primary-border);
-  flex-shrink: 0;
-}
-
-.profile-avatar-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.profile-avatar-wrapper:hover .profile-avatar-img {
-  transform: scale(1.05);
-}
-
-.profile-meta h3 {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--text-primary);
-}
-
-.profile-meta p {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  letter-spacing: 0.05em;
-  margin-top: 4px;
-}
-
-.location-tag {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.72rem;
-  color: var(--text-secondary);
-}
-
-.profile-bio-text {
-  font-size: 0.82rem;
-  line-height: 1.65;
-  color: var(--text-secondary);
-}
-
-.profile-stats-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  padding-top: 16px;
-  border-top: 1px solid var(--card-border);
-}
-
-.stat-box {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.stat-box .stat-lbl {
-  font-size: 0.62rem;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--text-muted);
-}
-
-.stat-box .stat-val {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--primary);
 }
 
 /* MARQUEE STRIP */
@@ -1435,6 +1497,9 @@ body {
     grid-template-columns: 1fr;
     gap: 40px;
   }
+  .hero-left-visual {
+    order: -1;
+  }
   .capabilities-grid, .cert-grid, .achievements-grid, .skills-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1471,5 +1536,13 @@ body {
   }
   .marquee-container {
     justify-content: center;
+  }
+  .hero-left-visual {
+    max-width: 320px;
+    height: 380px;
+  }
+  .hero-photo-wrapper {
+    width: 210px;
+    height: 280px;
   }
 }

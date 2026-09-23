@@ -49,8 +49,61 @@ export default function Hero() {
     <section id="home" className="hero-section">
       <div className="container">
         <div className="hero-grid">
-          {/* LEFT COLUMN */}
-          <div className="hero-left">
+          {/* LEFT COLUMN: ANIMATED GEOMETRIC PHOTO FRAME */}
+          <div className="hero-left-visual">
+            {/* Ambient Glowing Orbs */}
+            <div className="glow-orb orb-1"></div>
+            <div className="glow-orb orb-2"></div>
+
+            {/* Smooth Floating Geometric Triangle Frame */}
+            <div className="geo-triangle-wrapper">
+              <svg viewBox="0 0 500 500" className="geo-triangle-svg">
+                <defs>
+                  <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#ef4444" />
+                    <stop offset="50%" stopColor="#f87171" />
+                    <stop offset="100%" stopColor="#dc2626" />
+                  </linearGradient>
+                  <filter id="redGlow" x="-30%" y="-30%" width="160%" height="160%">
+                    <feGaussianBlur stdDeviation="6" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                  </filter>
+                </defs>
+                <path
+                  d="M 410 60 L 65 230 Q 45 245 65 260 L 395 450 Q 415 465 430 445 L 435 80 Q 440 60 410 60 Z"
+                  fill="none"
+                  stroke="url(#redGrad)"
+                  strokeWidth="5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  filter="url(#redGlow)"
+                />
+              </svg>
+            </div>
+
+            {/* User Photo */}
+            <div className="hero-photo-wrapper">
+              <img
+                src="me2.png"
+                alt="Abdul Kani"
+                className="hero-person-photo"
+              />
+            </div>
+
+            {/* Floating Quick Stats Pills */}
+            <div className="floating-stat-pill pill-cgpa">
+              <span className="pill-val">8.07</span>
+              <span className="pill-lbl">CGPA</span>
+            </div>
+
+            <div className="floating-stat-pill pill-skillrack">
+              <span className="pill-val">1120+</span>
+              <span className="pill-lbl">SkillRack</span>
+            </div>
+          </div>
+
+          {/* RIGHT COLUMN: DEVELOPER INTRO & CTAs */}
+          <div className="hero-right-content">
             <div className="status-badge">
               <span className="status-dot"></span>
               Available for select projects
@@ -122,47 +175,6 @@ export default function Hero() {
                 >
                   <i className="fab fa-instagram"></i>
                 </a>
-              </div>
-            </div>
-          </div>
-
-          {/* RIGHT COLUMN: PROFILE CARD */}
-          <div className="hero-right">
-            <div className="card profile-card">
-              <div className="profile-header">
-                <div className="profile-avatar-wrapper">
-                  <img
-                    src="me2.png"
-                    alt="Abdul Kani"
-                    className="profile-avatar-img"
-                  />
-                </div>
-                <div className="profile-meta">
-                  <h3>Abdul Kani B</h3>
-                  <p>Fullstack Developer</p>
-                  <p className="location-tag">
-                    <i className="fas fa-location-dot" style={{ color: 'var(--primary)' }}></i> Cuddalore, TN, India
-                  </p>
-                </div>
-              </div>
-
-              <p className="profile-bio-text">
-                B.Tech IT Student at Sri Eshwar College of Engineering. Specialized in building scalable MERN web applications, AI automation, and competitive problem solving.
-              </p>
-
-              <div className="profile-stats-grid">
-                <div className="stat-box">
-                  <span className="stat-lbl">CGPA</span>
-                  <span className="stat-val">8.07</span>
-                </div>
-                <div className="stat-box">
-                  <span className="stat-lbl">SkillRack</span>
-                  <span className="stat-val">1120+</span>
-                </div>
-                <div className="stat-box">
-                  <span className="stat-lbl">LeetCode</span>
-                  <span className="stat-val">230+</span>
-                </div>
               </div>
             </div>
           </div>
