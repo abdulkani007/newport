@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import BellToggle from './BellToggle';
 
 export default function Contact({ showToast, onMessageSaved }) {
   const [formData, setFormData] = useState({
@@ -69,8 +70,25 @@ export default function Contact({ showToast, onMessageSaved }) {
   return (
     <section id="contact" className="section contact">
       <div className="container">
-        <span className="section-tag">LET'S CONNECT</span>
-        <h2 className="section-title">Get In Touch</h2>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', marginBottom: '2rem' }}>
+          <div>
+            <span className="section-tag">LET'S CONNECT</span>
+            <h2 className="section-title" style={{ marginBottom: 0 }}>Get In Touch</h2>
+          </div>
+          <BellToggle
+            offLabel="Get updates"
+            onLabel="Subscribed for updates"
+            color="#f5f5f5"
+            background="#18181b"
+            onColor="#ffffff"
+            onBackground="#ef4444"
+            size="md"
+            badge
+            badgeColor="#ef4444"
+            count={1}
+            waves
+          />
+        </div>
 
         <div className="contact-grid">
           <div className="card contact-info-card">
