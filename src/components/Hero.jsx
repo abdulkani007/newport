@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ScrambledText from './ScrambledText';
+import SpecularButton from './SpecularButton';
 
 export default function Hero() {
   const fullText = "Hello !! This is Abdul Kani";
@@ -187,57 +188,169 @@ export default function Hero() {
             </ScrambledText>
 
             <div className="hero-badges">
-              <span className="hero-badge">Frontend Engineering</span>
-              <span className="hero-badge">MERN Stack</span>
-              <span className="hero-badge">AI Systems</span>
-              <span className="hero-badge">Competitive Programming</span>
+              <SpecularButton
+                size="sm"
+                radius={8}
+                tint="var(--badge-bg)"
+                tintOpacity={0.5}
+                textColor="var(--text-secondary)"
+                lineColor="#ffffff"
+                baseColor="#525252"
+                intensity={0.9}
+                shineSize={12}
+                shineFade={35}
+                proximity={200}
+                className="hero-badge-specular"
+              >
+                Frontend Engineering
+              </SpecularButton>
+
+              <SpecularButton
+                size="sm"
+                radius={8}
+                tint="var(--badge-bg)"
+                tintOpacity={0.5}
+                textColor="var(--text-secondary)"
+                lineColor="#ffffff"
+                baseColor="#525252"
+                intensity={0.9}
+                shineSize={12}
+                shineFade={35}
+                proximity={200}
+                className="hero-badge-specular"
+              >
+                MERN Stack
+              </SpecularButton>
+
+              <SpecularButton
+                size="sm"
+                radius={8}
+                tint="var(--badge-bg)"
+                tintOpacity={0.5}
+                textColor="var(--text-secondary)"
+                lineColor="#ffffff"
+                baseColor="#525252"
+                intensity={0.9}
+                shineSize={12}
+                shineFade={35}
+                proximity={200}
+                className="hero-badge-specular"
+              >
+                AI Systems
+              </SpecularButton>
+
+              <SpecularButton
+                size="sm"
+                radius={8}
+                tint="var(--badge-bg)"
+                tintOpacity={0.5}
+                textColor="var(--text-secondary)"
+                lineColor="#ffffff"
+                baseColor="#525252"
+                intensity={0.9}
+                shineSize={12}
+                shineFade={35}
+                proximity={200}
+                className="hero-badge-specular"
+              >
+                Competitive Programming
+              </SpecularButton>
             </div>
 
             <div className="hero-actions">
-              <a
-                href="#projects"
-                className="btn-primary"
+              <SpecularButton
+                size="lg"
+                radius={8}
+                tint="#ef4444"
+                tintOpacity={0.95}
+                textColor="#ffffff"
+                lineColor="#ffffff"
+                baseColor="#dc2626"
+                intensity={1.2}
+                shineSize={14}
+                shineFade={40}
+                proximity={280}
                 onClick={(e) => handleSmoothScroll(e, 'projects')}
+                className="btn-specular-primary"
               >
                 View Projects <i className="fas fa-arrow-up-right-from-square"></i>
-              </a>
+              </SpecularButton>
 
-              <a
-                href="Copy of Abdul's resume.pdf"
-                className="btn-secondary"
-                download="Copy of Abdul's resume.pdf"
+              <SpecularButton
+                size="lg"
+                radius={8}
+                tint="var(--card-bg)"
+                tintOpacity={0.8}
+                textColor="var(--text-primary)"
+                lineColor="#ffffff"
+                baseColor="#525252"
+                intensity={1.0}
+                shineSize={14}
+                shineFade={40}
+                proximity={280}
+                onClick={() => {
+                  const link = document.createElement('a');
+                  link.href = "Copy of Abdul's resume.pdf";
+                  link.download = "Copy of Abdul's resume.pdf";
+                  link.click();
+                }}
+                className="btn-specular-secondary"
               >
                 Download Resume <i className="fas fa-download"></i>
-              </a>
+              </SpecularButton>
 
               <div className="social-pills">
-                <a
-                  href="https://github.com/abdulkani007"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="social-pill"
-                  aria-label="GitHub"
+                <SpecularButton
+                  size="sm"
+                  radius={8}
+                  tint="var(--card-bg)"
+                  tintOpacity={0.7}
+                  textColor="var(--text-secondary)"
+                  lineColor="#ef4444"
+                  baseColor="#525252"
+                  intensity={1.1}
+                  shineSize={16}
+                  shineFade={40}
+                  proximity={200}
+                  onClick={() => window.open('https://github.com/abdulkani007', '_blank', 'noreferrer')}
+                  className="social-pill-specular"
                 >
                   <i className="fab fa-github"></i>
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/abdul-kani-b-3b89aa332?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="social-pill"
-                  aria-label="LinkedIn"
+                </SpecularButton>
+                <SpecularButton
+                  size="sm"
+                  radius={8}
+                  tint="var(--card-bg)"
+                  tintOpacity={0.7}
+                  textColor="var(--text-secondary)"
+                  lineColor="#ef4444"
+                  baseColor="#525252"
+                  intensity={1.1}
+                  shineSize={16}
+                  shineFade={40}
+                  proximity={200}
+                  onClick={() => window.open('https://www.linkedin.com/in/abdul-kani-b-3b89aa332?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app', '_blank', 'noreferrer')}
+                  className="social-pill-specular"
                 >
                   <i className="fab fa-linkedin"></i>
-                </a>
-                <a
-                  href="https://www.instagram.com/ab_naszz___?igsh=Mm1qYXB0YXBxNWY3"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="social-pill"
-                  aria-label="Instagram"
+                </SpecularButton>
+                <SpecularButton
+                  size="sm"
+                  radius={8}
+                  tint="var(--card-bg)"
+                  tintOpacity={0.7}
+                  textColor="var(--text-secondary)"
+                  lineColor="#ef4444"
+                  baseColor="#525252"
+                  intensity={1.1}
+                  shineSize={16}
+                  shineFade={40}
+                  proximity={200}
+                  onClick={() => window.open('https://www.instagram.com/ab_naszz___?igsh=Mm1qYXB0YXBxNWY3', '_blank', 'noreferrer')}
+                  className="social-pill-specular"
                 >
                   <i className="fab fa-instagram"></i>
-                </a>
+                </SpecularButton>
               </div>
             </div>
           </div>
