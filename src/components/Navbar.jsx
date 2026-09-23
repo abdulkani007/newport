@@ -9,7 +9,6 @@ const navItems = [
   { label: 'Skills', href: '#skills' },
   { label: 'Coding', href: '#coding' },
   { label: 'Awards', href: '#achievements' },
-  { label: 'Certs', href: '#certificates' },
   { label: 'Contact', href: '#contact' },
 ];
 

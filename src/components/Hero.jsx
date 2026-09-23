@@ -90,15 +90,15 @@ export default function Hero() {
               />
             </div>
 
-            {/* Floating Quick Stats Pills */}
+            {/* Floating Role Pills (UI Designer & AI Enthusiast) */}
             <div className="floating-stat-pill pill-cgpa">
-              <span className="pill-val">8.07</span>
-              <span className="pill-lbl">CGPA</span>
+              <span className="pill-val">UI/UX Designer</span>
+              <span className="pill-lbl">Interface & Motion</span>
             </div>
 
             <div className="floating-stat-pill pill-skillrack">
-              <span className="pill-val">1120+</span>
-              <span className="pill-lbl">SkillRack</span>
+              <span className="pill-val">AI Enthusiast</span>
+              <span className="pill-lbl">Intelligent Systems</span>
             </div>
           </div>
 

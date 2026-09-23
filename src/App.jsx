@@ -7,7 +7,6 @@ import Experience from './components/Experience';
 import Projects from './components/Projects';
 import TechnicalSkills from './components/TechnicalSkills';
 import CodingProfiles from './components/CodingProfiles';
-import Certificates from './components/Certificates';
 import Achievements from './components/Achievements';
 import Contact from './components/Contact';
 import Messages from './components/Messages';
@@ -90,7 +89,6 @@ export default function App() {
       <Projects />
       <TechnicalSkills />
       <CodingProfiles />
-      <Certificates />
       <Achievements />
       <Contact showToast={showToast} onMessageSaved={triggerMessageRefresh} />
       <Messages showToast={showToast} refreshTrigger={refreshMessages} />
