@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 
 * {
   margin: 0;
@@ -12,6 +12,9 @@ html {
 
 /* MONOCHROME BLACK & WHITE PALETTE WITH CRIMSON RED ACCENTS */
 :root {
+  --font-heading: 'Cormorant Garamond', 'Georgia', serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
   --bg-color: #050507;
   --bg-secondary: #0a0a0c;
   --card-bg: #0e0e11;
@@ -56,44 +59,53 @@ html {
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--font-body);
+  font-size: 1.125rem; /* 18px base size */
   background-color: var(--bg-color);
   color: var(--text-primary);
   overflow-x: hidden;
-  line-height: 1.6;
+  line-height: 1.7;
   min-height: 100vh;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.01em;
+}
+
 /* UTILITY CLASSES */
 .container {
-  max-width: 1120px;
+  max-width: 1140px;
   margin: 0 auto;
   padding: 0 24px;
 }
 
 .section {
-  padding: 100px 0;
+  padding: 110px 0;
   border-bottom: 1px solid var(--card-border);
   position: relative;
 }
 
 .section-tag {
-  font-size: 0.7rem;
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
   text-transform: uppercase;
-  letter-spacing: 0.25em;
+  letter-spacing: 0.22em;
   color: var(--primary);
-  font-weight: 600;
-  margin-bottom: 8px;
+  font-weight: 700;
+  margin-bottom: 12px;
   display: block;
 }
 
 .section-title {
-  font-size: 1.75rem;
-  font-weight: 800;
+  font-family: var(--font-heading);
+  font-size: 3.2rem;
+  font-weight: 700;
+  line-height: 1.15;
   letter-spacing: -0.02em;
   color: var(--text-primary);
-  margin-bottom: 44px;
+  margin-bottom: 48px;
 }
 
 /* CARD SYSTEM */
@@ -498,10 +510,11 @@ body {
 }
 
 .hero-title {
-  font-size: 2.5rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.25;
+  font-family: var(--font-heading);
+  font-size: 3.8rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
   color: var(--text-primary);
 }
 
@@ -520,47 +533,48 @@ body {
 }
 
 .hero-subtitle {
-  font-size: 0.95rem;
-  line-height: 1.75;
+  font-size: 1.15rem;
+  line-height: 1.8;
   color: var(--text-secondary);
-  max-width: 520px;
+  max-width: 560px;
 }
 
 .hero-badges {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 10px;
 }
 
 .hero-badge {
-  padding: 6px 12px;
+  padding: 8px 16px;
   border-radius: 6px;
   border: 1px solid var(--card-border);
   background: var(--badge-bg);
-  font-size: 0.68rem;
-  letter-spacing: 0.1em;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
   color: var(--text-secondary);
+  font-weight: 500;
 }
 
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 14px;
-  margin-top: 8px;
+  gap: 16px;
+  margin-top: 12px;
 }
 
 .btn-primary {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 22px;
-  border-radius: 6px;
+  gap: 10px;
+  padding: 14px 26px;
+  border-radius: 8px;
   background: var(--primary);
   color: #ffffff;
-  font-size: 0.72rem;
+  font-size: 0.85rem;
   text-transform: uppercase;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   font-weight: 600;
   text-decoration: none;
   transition: all 0.2s ease;
@@ -575,14 +589,14 @@ body {
 .btn-secondary {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 22px;
-  border-radius: 6px;
+  gap: 10px;
+  padding: 14px 26px;
+  border-radius: 8px;
   background: var(--card-bg);
   color: var(--text-primary);
-  font-size: 0.72rem;
+  font-size: 0.85rem;
   text-transform: uppercase;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   font-weight: 600;
   text-decoration: none;
   transition: all 0.2s ease;
@@ -659,14 +673,14 @@ body {
 }
 
 .about-desc-card {
-  padding: 28px;
+  padding: 32px;
 }
 
 .about-desc-card p {
-  font-size: 0.9rem;
-  line-height: 1.75;
+  font-size: 1.12rem;
+  line-height: 1.8;
   color: var(--text-secondary);
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 .about-desc-card p:last-child {
@@ -676,30 +690,31 @@ body {
 .capabilities-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  margin-top: 24px;
+  gap: 24px;
+  margin-top: 28px;
 }
 
 .capability-card {
-  padding: 24px;
+  padding: 28px;
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
 .capability-card h4 {
-  font-size: 0.88rem;
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.02em;
   color: var(--text-primary);
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .capability-card p {
-  font-size: 0.8rem;
+  font-size: 1.02rem;
   color: var(--text-secondary);
-  margin-bottom: 16px;
-  line-height: 1.6;
+  margin-bottom: 18px;
+  line-height: 1.7;
 }
 
 .capability-list {
@@ -707,54 +722,56 @@ body {
   margin-top: auto;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .capability-list li {
-  font-size: 0.72rem;
+  font-size: 0.92rem;
   color: var(--text-muted);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .capability-list li::before {
   content: '';
-  width: 10px;
+  width: 12px;
   height: 1px;
   background: var(--primary);
 }
 
 /* EXPERIENCE TIMELINE */
 .timeline-card {
-  padding: 28px;
+  padding: 32px;
 }
 
 .timeline-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 .timeline-role {
-  font-size: 1.05rem;
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
   font-weight: 700;
   color: var(--text-primary);
 }
 
 .timeline-company {
-  font-size: 0.8rem;
-  letter-spacing: 0.1em;
+  font-size: 1.05rem;
+  letter-spacing: 0.08em;
   color: var(--primary);
   margin-top: 4px;
+  font-weight: 500;
 }
 
 .timeline-date {
-  font-size: 0.68rem;
+  font-size: 0.82rem;
   text-transform: uppercase;
-  letter-spacing: 0.18em;
-  padding: 4px 12px;
+  letter-spacing: 0.16em;
+  padding: 6px 14px;
   border-radius: 50px;
   border: 1px solid var(--card-border);
   background: var(--badge-bg);
@@ -765,15 +782,15 @@ body {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .timeline-bullets li {
-  font-size: 0.85rem;
+  font-size: 1.08rem;
   color: var(--text-secondary);
   position: relative;
-  padding-left: 20px;
-  line-height: 1.6;
+  padding-left: 24px;
+  line-height: 1.7;
 }
 
 .timeline-bullets li::before {
@@ -781,6 +798,7 @@ body {
   position: absolute;
   left: 0;
   color: var(--primary);
+  font-size: 1.2rem;
 }
 
 /* PROJECTS GRID & SLIDER */
@@ -895,40 +913,42 @@ body {
 }
 
 .project-title {
-  font-size: 0.98rem;
+  font-family: var(--font-heading);
+  font-size: 1.55rem;
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--text-primary);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .project-desc {
-  font-size: 0.82rem;
+  font-size: 1.05rem;
   color: var(--text-secondary);
-  line-height: 1.6;
-  margin-bottom: 16px;
+  line-height: 1.7;
+  margin-bottom: 18px;
 }
 
 .project-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 18px;
+  gap: 8px;
+  margin-bottom: 20px;
 }
 
 .tech-tag {
-  padding: 4px 10px;
-  border-radius: 4px;
+  padding: 6px 12px;
+  border-radius: 6px;
   border: 1px solid var(--card-border);
   background: var(--badge-bg);
-  font-size: 0.65rem;
-  letter-spacing: 0.1em;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
   color: var(--text-muted);
+  font-weight: 500;
 }
 
 .project-footer {
   margin-top: auto;
-  padding-top: 14px;
+  padding-top: 16px;
   border-top: 1px solid var(--card-border);
   display: flex;
   justify-content: flex-end;
@@ -937,10 +957,10 @@ body {
 .project-link {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 0.7rem;
+  gap: 8px;
+  font-size: 0.85rem;
   text-transform: uppercase;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   color: var(--text-primary);
   text-decoration: none;
   font-weight: 600;
@@ -955,55 +975,57 @@ body {
 .skills-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 24px;
 }
 
 .skill-card {
-  padding: 22px;
+  padding: 26px;
 }
 
 .skill-card-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 14px;
+  gap: 14px;
+  margin-bottom: 16px;
 }
 
 .skill-card-header i {
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   color: var(--primary);
 }
 
 .skill-card-header h3 {
-  font-size: 0.88rem;
-  font-weight: 600;
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 700;
   color: var(--text-primary);
 }
 
 .skill-pills {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 8px;
 }
 
 .skill-pill {
-  padding: 5px 10px;
+  padding: 6px 12px;
   border-radius: 6px;
   border: 1px solid var(--card-border);
   background: var(--badge-bg);
-  font-size: 0.72rem;
+  font-size: 0.88rem;
   color: var(--text-secondary);
+  font-weight: 500;
 }
 
 /* CODING PROFILES */
 .coding-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  gap: 24px;
 }
 
 .coding-card {
-  padding: 24px;
+  padding: 28px;
   text-decoration: none;
   color: inherit;
   display: flex;
@@ -1015,14 +1037,15 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
 
 .coding-platform-title {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 1rem;
+  gap: 12px;
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
   font-weight: 700;
   color: var(--text-primary);
 }
@@ -1033,7 +1056,7 @@ body {
 
 .stat-counter-wrapper {
   display: flex;
-  gap: 24px;
+  gap: 28px;
 }
 
 .stat-counter-item {
@@ -1042,42 +1065,46 @@ body {
 }
 
 .stat-number {
-  font-size: 1.75rem;
+  font-size: 2.2rem;
   font-weight: 800;
   color: var(--text-primary);
+  line-height: 1.1;
 }
 
 .stat-label {
-  font-size: 0.65rem;
+  font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.15em;
   color: var(--text-muted);
+  margin-top: 4px;
+  font-weight: 600;
 }
 
 .rank-badge {
-  font-size: 0.68rem;
+  font-size: 0.82rem;
   text-transform: uppercase;
   letter-spacing: 0.15em;
   color: var(--primary);
   margin-top: 12px;
+  font-weight: 600;
 }
 
 .hackerrank-badges {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 10px;
+  gap: 8px;
+  margin-top: 12px;
 }
 
 .badge-item {
-  padding: 4px 10px;
+  padding: 6px 12px;
   border-radius: 6px;
   border: 1px solid var(--card-border);
   background: var(--badge-bg);
-  font-size: 0.68rem;
+  font-size: 0.82rem;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   color: var(--text-secondary);
 }
 
@@ -1133,118 +1160,122 @@ body {
 }
 
 .achievement-card {
-  padding: 22px;
+  padding: 26px;
   display: flex;
-  gap: 14px;
+  gap: 16px;
   align-items: flex-start;
 }
 
 .achievement-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
+  width: 46px;
+  height: 46px;
+  border-radius: 10px;
   border: 1px solid var(--primary-border);
   background: var(--primary-subtle);
   color: var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
+  font-size: 1.35rem;
   flex-shrink: 0;
 }
 
 .achievement-details h3 {
-  font-size: 0.92rem;
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
   font-weight: 700;
   color: var(--text-primary);
 }
 
 .achievement-details p {
-  font-size: 0.78rem;
+  font-size: 1.02rem;
   color: var(--text-secondary);
-  margin: 2px 0;
+  margin: 4px 0;
 }
 
 .achievement-venue {
-  font-size: 0.65rem;
+  font-size: 0.82rem;
   text-transform: uppercase;
   letter-spacing: 0.15em;
   color: var(--text-muted);
+  font-weight: 500;
 }
 
 /* CONTACT SECTION */
 .contact-grid {
   display: grid;
   grid-template-columns: 1fr 1.5fr;
-  gap: 32px;
+  gap: 36px;
 }
 
 .contact-info-card {
-  padding: 28px;
+  padding: 32px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 28px;
 }
 
 .contact-item {
   display: flex;
   align-items: flex-start;
-  gap: 14px;
+  gap: 18px;
 }
 
 .contact-item i {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
   border: 1px solid var(--primary-border);
   background: var(--primary-subtle);
   color: var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.9rem;
+  font-size: 1.15rem;
   flex-shrink: 0;
 }
 
 .contact-item h4 {
-  font-size: 0.68rem;
+  font-size: 0.82rem;
   text-transform: uppercase;
   letter-spacing: 0.18em;
   color: var(--text-muted);
-  margin-bottom: 2px;
+  margin-bottom: 4px;
+  font-weight: 600;
 }
 
 .contact-item p {
-  font-size: 0.85rem;
+  font-size: 1.05rem;
   color: var(--text-primary);
 }
 
 .contact-form-card {
-  padding: 28px;
+  padding: 32px;
 }
 
 .form-group {
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .form-group label {
   display: block;
-  font-size: 0.68rem;
+  font-size: 0.82rem;
   text-transform: uppercase;
   letter-spacing: 0.18em;
   color: var(--text-muted);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
+  font-weight: 600;
 }
 
 .form-input, .form-textarea {
   width: 100%;
-  padding: 10px 14px;
-  border-radius: 6px;
+  padding: 12px 16px;
+  border-radius: 8px;
   border: 1px solid var(--card-border);
   background: var(--bg-color);
   color: var(--text-primary);
   font-family: inherit;
-  font-size: 0.85rem;
+  font-size: 1.02rem;
   outline: none;
   transition: border-color 0.2s ease;
 }
@@ -1255,12 +1286,12 @@ body {
 
 .btn-submit {
   width: 100%;
-  padding: 12px;
-  border-radius: 6px;
+  padding: 14px;
+  border-radius: 8px;
   border: 1px solid var(--primary);
   background: var(--primary);
   color: #ffffff;
-  font-size: 0.72rem;
+  font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.18em;
   font-weight: 600;
