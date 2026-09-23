@@ -1,4 +1,5 @@
 import React from 'react';
+import Shuffle from './Shuffle';
 
 const skillGroups = [
   {
@@ -38,7 +39,17 @@ export default function TechnicalSkills() {
     <section id="skills" className="section technical-skills">
       <div className="container">
         <span className="section-tag">Stack & Tooling</span>
-        <h2 className="section-title">Technical Skills</h2>
+        <Shuffle
+          text="Technical Skills"
+          tag="h2"
+          className="section-title"
+          shuffleDirection="right"
+          duration={0.35}
+          animationMode="evenodd"
+          shuffleTimes={1}
+          stagger={0.03}
+          triggerOnHover={true}
+        />
 
         <div className="skills-grid">
           {skillGroups.map((group, idx) => (

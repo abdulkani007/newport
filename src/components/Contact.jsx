@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import BellToggle from './BellToggle';
+import Shuffle from './Shuffle';
 
 export default function Contact({ showToast, onMessageSaved }) {
   const [formData, setFormData] = useState({
@@ -73,7 +74,18 @@ export default function Contact({ showToast, onMessageSaved }) {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', marginBottom: '2rem' }}>
           <div>
             <span className="section-tag">LET'S CONNECT</span>
-            <h2 className="section-title" style={{ marginBottom: 0 }}>Get In Touch</h2>
+            <Shuffle
+              text="Get In Touch"
+              tag="h2"
+              className="section-title"
+              style={{ marginBottom: 0 }}
+              shuffleDirection="right"
+              duration={0.35}
+              animationMode="evenodd"
+              shuffleTimes={1}
+              stagger={0.03}
+              triggerOnHover={true}
+            />
           </div>
           <BellToggle
             offLabel="Get updates"

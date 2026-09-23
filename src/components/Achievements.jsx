@@ -1,4 +1,5 @@
 import React from 'react';
+import Shuffle from './Shuffle';
 
 const achievementsData = [
   {
@@ -44,7 +45,17 @@ export default function Achievements() {
     <section id="achievements" className="section achievements">
       <div className="container">
         <span className="section-tag">RECOGNITION & HONORS</span>
-        <h2 className="section-title">Achievements</h2>
+        <Shuffle
+          text="Achievements"
+          tag="h2"
+          className="section-title"
+          shuffleDirection="right"
+          duration={0.35}
+          animationMode="evenodd"
+          shuffleTimes={1}
+          stagger={0.03}
+          triggerOnHover={true}
+        />
 
         <div className="achievements-grid">
           {achievementsData.map((item, idx) => (

@@ -1,11 +1,22 @@
 import React from 'react';
+import Shuffle from './Shuffle';
 
 export default function Experience() {
   return (
     <section id="experience" className="section experience">
       <div className="container">
         <span className="section-tag">Career Timeline</span>
-        <h2 className="section-title">Experience</h2>
+        <Shuffle
+          text="Experience"
+          tag="h2"
+          className="section-title"
+          shuffleDirection="right"
+          duration={0.35}
+          animationMode="evenodd"
+          shuffleTimes={1}
+          stagger={0.03}
+          triggerOnHover={true}
+        />
 
         <div className="timeline">
           <div className="card timeline-card">

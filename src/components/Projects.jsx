@@ -1,5 +1,6 @@
 import React from 'react';
 import ProjectCard from './ProjectCard';
+import Shuffle from './Shuffle';
 
 const projectsData = [
   {
@@ -57,7 +58,17 @@ export default function Projects() {
     <section id="projects" className="section projects">
       <div className="container">
         <span className="section-tag">Selected Work</span>
-        <h2 className="section-title">Projects</h2>
+        <Shuffle
+          text="Projects"
+          tag="h2"
+          className="section-title"
+          shuffleDirection="right"
+          duration={0.35}
+          animationMode="evenodd"
+          shuffleTimes={1}
+          stagger={0.03}
+          triggerOnHover={true}
+        />
 
         <div className="project-grid">
           {projectsData.map((project) => (

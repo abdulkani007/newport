@@ -1,11 +1,22 @@
 import React from 'react';
+import Shuffle from './Shuffle';
 
 export default function About() {
   return (
     <section id="about" className="section about">
       <div className="container">
         <span className="section-tag">Capabilities & Overview</span>
-        <h2 className="section-title">About Me</h2>
+        <Shuffle
+          text="About Me"
+          tag="h2"
+          className="section-title"
+          shuffleDirection="right"
+          duration={0.35}
+          animationMode="evenodd"
+          shuffleTimes={1}
+          stagger={0.03}
+          triggerOnHover={true}
+        />
 
         <div className="about-grid">
           <div className="card about-desc-card">

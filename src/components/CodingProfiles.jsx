@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import Shuffle from './Shuffle';
 
 function StatCounter({ target, label }) {
   const countRef = useRef(null);
@@ -51,7 +52,17 @@ export default function CodingProfiles() {
     <section id="coding" className="section coding-profiles">
       <div className="container">
         <span className="section-tag">Competitive Metrics</span>
-        <h2 className="section-title">Coding Profiles</h2>
+        <Shuffle
+          text="Coding Profiles"
+          tag="h2"
+          className="section-title"
+          shuffleDirection="right"
+          duration={0.35}
+          animationMode="evenodd"
+          shuffleTimes={1}
+          stagger={0.03}
+          triggerOnHover={true}
+        />
 
         <div className="coding-grid">
           <a

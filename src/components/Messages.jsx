@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import Shuffle from './Shuffle';
 
 export default function Messages({ showToast, refreshTrigger }) {
   const [messages, setMessages] = useState([]);
@@ -43,7 +44,17 @@ export default function Messages({ showToast, refreshTrigger }) {
     <section id="messages" className="section messages">
       <div className="container">
         <span className="section-tag">INBOX HISTORY</span>
-        <h2 className="section-title">Messages</h2>
+        <Shuffle
+          text="Messages"
+          tag="h2"
+          className="section-title"
+          shuffleDirection="right"
+          duration={0.35}
+          animationMode="evenodd"
+          shuffleTimes={1}
+          stagger={0.03}
+          triggerOnHover={true}
+        />
 
         <div className="card messages-card">
           <div className="messages-header">
