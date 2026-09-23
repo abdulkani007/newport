@@ -1609,8 +1609,19 @@ html, body {
     width: 210px;
     height: 280px;
   }
+  .pill-cgpa {
+    top: 5px;
+    right: 5px;
+    transform: scale(0.9);
+  }
+  .pill-skillrack {
+    bottom: 5px;
+    left: 5px;
+    transform: scale(0.9);
+  }
   .hero-badges {
     justify-content: center;
+    gap: 8px;
   }
   .hero-actions {
     flex-direction: column;
@@ -1639,14 +1650,18 @@ html, body {
     height: 235px;
   }
   .pill-cgpa {
-    right: -2px;
-    top: 8%;
+    right: 0px;
+    top: 0px;
     padding: 6px 10px;
+    transform: scale(0.82);
+    transform-origin: top right;
   }
   .pill-skillrack {
-    left: -2px;
-    bottom: 6%;
+    left: 0px;
+    bottom: 0px;
     padding: 6px 10px;
+    transform: scale(0.82);
+    transform-origin: bottom left;
   }
   .floating-stat-pill .pill-val {
     font-size: 0.8rem;

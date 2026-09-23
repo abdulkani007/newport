@@ -4,14 +4,14 @@ import './SpecularButton.css';
 
 const PAD = 20;
 
-const VERT = `#version 300 es
-in vec2 position;
+const VERT = `
+attribute vec2 position;
 void main() {
   gl_Position = vec4(position, 0.0, 1.0);
 }
 `;
 
-const FRAG = `#version 300 es
+const FRAG = `
 precision highp float;
 
 uniform vec2 uCenter;
@@ -26,8 +26,6 @@ uniform float uShineSize;
 uniform float uShineFade;
 uniform float uThickness;
 uniform float uBaseWidth;
-
-out vec4 fragColor;
 
 float sdRoundedRect(vec2 p, vec2 b, float r) {
   vec2 q = abs(p) - b + r;
@@ -51,8 +49,7 @@ void main() {
   float base = (1.0 - smoothstep(0.0, uBaseWidth, abs(d))) * 0.45;
 
   // Symmetric specular: the edges facing toward/away from the light both
-  // catch a streak. The angular window (size + fade) is measured with an
-  // elliptical normal so it varies continuously along straight edges.
+  // catch a streak.
   vec2 nEll = normalize(p / (uHalfSize * uHalfSize) + 1e-6);
   float phi = acos(clamp(abs(dot(nEll, L)), 0.0, 1.0));
   float rim = 1.0 - smoothstep(uShineSize - uShineFade, uShineSize + uShineFade + 1e-4, phi);
@@ -62,7 +59,7 @@ void main() {
 
   vec3 col = uBaseColor * base + uLineColor * hi;
   float a = clamp(base + hi, 0.0, 1.0);
-  fragColor = vec4(col, a);
+  gl_FragColor = vec4(col, a);
 }
 `;
 
@@ -101,43 +98,56 @@ const SpecularButton = ({
     const fx = fxRef.current;
     if (!btn || !fx) return;
 
-    const dpr = window.devicePixelRatio || 1;
-    const renderer = new Renderer({ alpha: true, premultipliedAlpha: true, antialias: true, dpr });
-    const gl = renderer.gl;
-    gl.clearColor(0, 0, 0, 0);
-    gl.enable(gl.BLEND);
-    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+    let renderer, gl, mesh, program, ro, raf = 0;
+    let isWebGlValid = true;
 
-    const geometry = new Triangle(gl);
-    if (geometry.attributes.uv) delete geometry.attributes.uv;
+    try {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      renderer = new Renderer({ alpha: true, premultipliedAlpha: true, antialias: true, dpr });
+      gl = renderer.gl;
+      if (!gl) throw new Error('WebGL context unavailable');
 
-    const program = new Program(gl, {
-      vertex: VERT,
-      fragment: FRAG,
-      uniforms: {
-        uCenter: { value: [0, 0] },
-        uHalfSize: { value: [1, 1] },
-        uRadius: { value: 0 },
-        uAngle: { value: 2.4 },
-        uPx: { value: dpr },
-        uLineColor: { value: [1, 1, 1] },
-        uBaseColor: { value: [0.32, 0.32, 0.32] },
-        uIntensity: { value: 1 },
-        uShineSize: { value: 0.17 },
-        uShineFade: { value: 0.7 },
-        uThickness: { value: 1 },
+      gl.clearColor(0, 0, 0, 0);
+      gl.enable(gl.BLEND);
+      gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 
-        uBaseWidth: { value: dpr }
+      const geometry = new Triangle(gl);
+      if (geometry.attributes.uv) delete geometry.attributes.uv;
+
+      program = new Program(gl, {
+        vertex: VERT,
+        fragment: FRAG,
+        uniforms: {
+          uCenter: { value: [0, 0] },
+          uHalfSize: { value: [1, 1] },
+          uRadius: { value: 0 },
+          uAngle: { value: 2.4 },
+          uPx: { value: dpr },
+          uLineColor: { value: [1, 1, 1] },
+          uBaseColor: { value: [0.32, 0.32, 0.32] },
+          uIntensity: { value: 1 },
+          uShineSize: { value: 0.17 },
+          uShineFade: { value: 0.7 },
+          uThickness: { value: 1 },
+          uBaseWidth: { value: dpr }
+        }
+      });
+
+      mesh = new Mesh(gl, { geometry, program });
+      if (gl.canvas) {
+        fx.appendChild(gl.canvas);
       }
-    });
-
-    const mesh = new Mesh(gl, { geometry, program });
-    fx.appendChild(gl.canvas);
+    } catch (err) {
+      console.warn('SpecularButton WebGL fallback activated:', err);
+      isWebGlValid = false;
+      if (fx) fx.style.display = 'none';
+      return;
+    }
 
     const sizeRef = { w: 1, h: 1 };
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const resize = () => {
-      // Fractional size + explicit center keep the SDF pinned to the exact
-      // CSS border, instead of drifting up to a pixel from offsetWidth rounding.
+      if (!isWebGlValid || !renderer || !program) return;
       const rect = btn.getBoundingClientRect();
       const w = rect.width;
       const h = rect.height;
@@ -147,12 +157,11 @@ const SpecularButton = ({
       program.uniforms.uCenter.value = [(PAD + w / 2) * dpr, (PAD + h / 2) * dpr];
       program.uniforms.uHalfSize.value = [(w / 2) * dpr, (h / 2) * dpr];
     };
-    const ro = new ResizeObserver(resize);
+
+    ro = new ResizeObserver(resize);
     ro.observe(btn);
     resize();
 
-    // Light angle steers toward the pointer (anywhere on the page) and falls
-    // back to a slow sweep when the pointer hasn't moved yet.
     let pointerAngle = null;
     let proximityT = 0;
     const onPointerMove = e => {
@@ -162,8 +171,6 @@ const SpecularButton = ({
       const dx = Math.max(rect.left - e.clientX, 0, e.clientX - rect.right);
       const dy = Math.max(rect.top - e.clientY, 0, e.clientY - rect.bottom);
       const dist = Math.hypot(dx, dy);
-      // Over the button itself the light settles on the diagonal (framing the
-      // corners) and gently sways with the cursor position within the button.
       if (dist === 0) {
         const nx = (e.clientX - cx) / (rect.width / 2);
         const ny = (cy - e.clientY) / (rect.height / 2);
@@ -174,6 +181,7 @@ const SpecularButton = ({
       const t = Math.max(0, 1 - dist / Math.max(propsRef.current.proximity, 1));
       proximityT = t * t * (3 - 2 * t);
     };
+
     const onTouchMove = e => {
       if (e.touches && e.touches[0]) {
         onPointerMove(e.touches[0]);
@@ -188,7 +196,6 @@ const SpecularButton = ({
     let idleAngle = 2.4;
     let bright = 0;
     let last = performance.now();
-    let raf = 0;
 
     const resolveColor = (str) => {
       if (!str) return '#ffffff';
@@ -204,6 +211,7 @@ const SpecularButton = ({
     const baseC = new Color();
 
     const update = now => {
+      if (!isWebGlValid || !renderer || !program) return;
       raf = requestAnimationFrame(update);
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
@@ -215,8 +223,7 @@ const SpecularButton = ({
       const diff = ((target - angle + Math.PI * 3) % (Math.PI * 2)) - Math.PI;
       angle += diff * (1 - Math.exp(-dt * 7));
 
-      // Shine fades in with pointer proximity unless autoAnimate keeps it on
-      const brightTarget = p.autoAnimate ? 1 : proximityT;
+      const brightTarget = p.autoAnimate ? 1 : Math.max(proximityT, 0.5); // Ensure shine is visible on mobile touches
       bright += (brightTarget - bright) * (1 - Math.exp(-dt * 8));
 
       try {
@@ -237,16 +244,21 @@ const SpecularButton = ({
       program.uniforms.uThickness.value = p.thickness * dpr;
       renderer.render({ scene: mesh });
     };
+
     raf = requestAnimationFrame(update);
 
     return () => {
-      cancelAnimationFrame(raf);
-      ro.disconnect();
+      if (raf) cancelAnimationFrame(raf);
+      if (ro) ro.disconnect();
       window.removeEventListener('pointermove', onPointerMove);
       window.removeEventListener('touchmove', onTouchMove);
       window.removeEventListener('touchstart', onTouchMove);
-      if (gl.canvas.parentNode === fx) fx.removeChild(gl.canvas);
-      gl.getExtension('WEBGL_lose_context')?.loseContext();
+      try {
+        if (gl && gl.canvas && gl.canvas.parentNode === fx) {
+          fx.removeChild(gl.canvas);
+        }
+        gl?.getExtension('WEBGL_lose_context')?.loseContext();
+      } catch (e) {}
     };
   }, []);
 

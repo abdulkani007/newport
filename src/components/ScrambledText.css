@@ -13,8 +13,12 @@
   color: inherit;
 }
 
+.word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
 .char {
   will-change: transform;
   display: inline-block;
-  white-space: pre;
 }
