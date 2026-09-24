@@ -61,12 +61,12 @@ export default function Achievements() {
 
         <ScrollStack
           useWindowScroll={true}
-          itemDistance={25}
+          itemDistance={35}
           itemScale={0.025}
-          itemStackDistance={20}
-          stackPosition="25%"
+          itemStackDistance={75}
+          stackPosition="15%"
           scaleEndPosition="10%"
-          baseScale={0.9}
+          baseScale={0.88}
         >
           {achievementsData.map((item, idx) => (
             <ScrollStackItem key={idx}>
