@@ -1,0 +1,98 @@
+.threed-section-scene {
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+  transform-style: preserve-3d;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 10px 0;
+  will-change: transform;
+}
+
+.threed-section-page {
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  position: relative;
+  width: 100%;
+  border-radius: 20px;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+/* Notebook digital art book binding accent */
+.threed-section-page::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  bottom: 20px;
+  left: 0;
+  width: 3px;
+  background: linear-gradient(
+    180deg,
+    rgba(239, 68, 68, 0.6) 0%,
+    rgba(239, 68, 68, 0.15) 50%,
+    rgba(239, 68, 68, 0.6) 100%
+  );
+  border-radius: 4px;
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: 5;
+  transition: opacity 0.3s ease;
+}
+
+/* Page number tag watermark in notebook header */
+.notebook-page-tag {
+  position: absolute;
+  top: 12px;
+  right: 24px;
+  font-family: var(--font-body, inherit);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--primary, #ef4444);
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: 6;
+  user-select: none;
+}
+
+.threed-page-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+/* Responsive tweaks for touch & mobile viewports */
+@media (max-width: 768px) {
+  .threed-section-scene {
+    perspective: 800px;
+    padding: 0;
+  }
+
+  .threed-section-page::before {
+    display: none;
+  }
+
+  .notebook-page-tag {
+    right: 16px;
+    font-size: 0.55rem;
+    opacity: 0.35;
+  }
+}
+
+/* Honor reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .threed-section-scene {
+    perspective: none;
+  }
+  .threed-section-page {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  .threed-section-page::before,
+  .notebook-page-tag {
+    display: none;
+  }
+}

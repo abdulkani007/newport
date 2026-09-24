@@ -13,6 +13,7 @@ import Messages from './components/Messages';
 import Footer from './components/Footer';
 import BackToTop from './components/BackToTop';
 import Toast from './components/Toast';
+import ThreeDSection from './components/ThreeDSection';
 
 export default function App() {
   const [theme, setTheme] = useState('dark');
@@ -57,40 +58,44 @@ export default function App() {
     setRefreshMessages((prev) => prev + 1);
   };
 
-  // IntersectionObserver for subtle fadeInUp motion effect
-  useEffect(() => {
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -30px 0px',
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.style.animation = 'fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards';
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    const elements = document.querySelectorAll('.card');
-    elements.forEach((el) => observer.observe(el));
-
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <>
       <Navbar theme={theme} toggleTheme={toggleTheme} />
-      <Hero />
+
+      <ThreeDSection pageNumber="01">
+        <Hero />
+      </ThreeDSection>
+
       <Collaborators />
-      <About />
-      <Experience />
-      <Projects />
-      <TechnicalSkills />
-      <CodingProfiles />
-      <Achievements />
-      <Contact showToast={showToast} onMessageSaved={triggerMessageRefresh} />
+
+      <ThreeDSection pageNumber="02">
+        <About />
+      </ThreeDSection>
+
+      <ThreeDSection pageNumber="03">
+        <Experience />
+      </ThreeDSection>
+
+      <ThreeDSection pageNumber="04">
+        <Projects />
+      </ThreeDSection>
+
+      <ThreeDSection pageNumber="05">
+        <TechnicalSkills />
+      </ThreeDSection>
+
+      <ThreeDSection pageNumber="06">
+        <CodingProfiles />
+      </ThreeDSection>
+
+      <ThreeDSection pageNumber="07">
+        <Achievements />
+      </ThreeDSection>
+
+      <ThreeDSection pageNumber="08">
+        <Contact showToast={showToast} onMessageSaved={triggerMessageRefresh} />
+      </ThreeDSection>
+
       <Messages showToast={showToast} refreshTrigger={refreshMessages} />
       <Footer />
       <BackToTop />
