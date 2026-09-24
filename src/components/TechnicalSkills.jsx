@@ -59,7 +59,7 @@ export default function TechnicalSkills() {
             height={220}
             cardDistance={35}
             verticalDistance={30}
-            delay={3500}
+            delay={1000}
             pauseOnHover={true}
             skewAmount={3}
             easing="elastic"
