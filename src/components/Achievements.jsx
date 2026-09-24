@@ -1,6 +1,7 @@
 import React from 'react';
 import Shuffle from './Shuffle';
 import BorderGlow from './BorderGlow';
+import ScrollStack, { ScrollStackItem } from './ScrollStack';
 
 const achievementsData = [
   {
@@ -58,20 +59,30 @@ export default function Achievements() {
           triggerOnHover={true}
         />
 
-        <div className="achievements-grid">
+        <ScrollStack
+          useWindowScroll={true}
+          itemDistance={25}
+          itemScale={0.025}
+          itemStackDistance={20}
+          stackPosition="25%"
+          scaleEndPosition="10%"
+          baseScale={0.9}
+        >
           {achievementsData.map((item, idx) => (
-            <BorderGlow key={idx} className="achievement-card">
-              <div className="achievement-icon">
-                <i className={item.icon}></i>
-              </div>
-              <div className="achievement-details">
-                <h3>{item.title}</h3>
-                <p>{item.subtitle}</p>
-                <span className="achievement-venue">{item.venue}</span>
-              </div>
-            </BorderGlow>
+            <ScrollStackItem key={idx}>
+              <BorderGlow className="achievement-card">
+                <div className="achievement-icon">
+                  <i className={item.icon}></i>
+                </div>
+                <div className="achievement-details">
+                  <h3>{item.title}</h3>
+                  <p>{item.subtitle}</p>
+                  <span className="achievement-venue">{item.venue}</span>
+                </div>
+              </BorderGlow>
+            </ScrollStackItem>
           ))}
-        </div>
+        </ScrollStack>
       </div>
     </section>
   );
