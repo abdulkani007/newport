@@ -8,10 +8,12 @@ gsap.registerPlugin(ScrollTrigger);
 const ThreeDSection = ({ children, id, className = '', pageNumber = '' }) => {
   const sectionRef = useRef(null);
   const pageRef = useRef(null);
+  const shadowRef = useRef(null);
 
   useEffect(() => {
     const section = sectionRef.current;
     const page = pageRef.current;
+    const shadow = shadowRef.current;
     if (!section || !page) return;
 
     // Respect reduced motion
@@ -20,35 +22,36 @@ const ThreeDSection = ({ children, id, className = '', pageNumber = '' }) => {
 
     const isMobile = window.innerWidth <= 768;
 
-    // 3D Perspective Scroll scrub values
-    const enterRotateX = isMobile ? 5 : 12;
-    const enterRotateY = isMobile ? -2 : -5;
-    const enterTranslateZ = isMobile ? -30 : -100;
-    const exitRotateX = isMobile ? -5 : -12;
-    const exitRotateY = isMobile ? 2 : 5;
-    const exitTranslateZ = isMobile ? -30 : -100;
+    // 3D Perspective Scroll parameters (Dramatic & Clearly Visible)
+    const enterRotateX = isMobile ? 12 : 22;
+    const enterRotateY = isMobile ? -4 : -8;
+    const enterTranslateZ = isMobile ? -60 : -160;
+    const exitRotateX = isMobile ? -12 : -22;
+    const exitRotateY = isMobile ? 4 : 8;
+    const exitTranslateZ = isMobile ? -60 : -160;
 
-    // Create GSAP ScrollTrigger timeline for 3D page transition
     const ctx = gsap.context(() => {
+      // Timeline for 3D Page Turn Scrubbing
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
-          start: 'top bottom-=5%',
-          end: 'bottom top+=5%',
-          scrub: 0.6,
+          start: 'top 92%',
+          end: 'bottom 8%',
+          scrub: 0.8,
           invalidateOnRefresh: true,
         },
       });
 
-      // Entry: page comes from 3D depth into flat focus
+      // Step 1: Page enters from 3D depth, rotating into flat focus
       tl.fromTo(
         page,
         {
           rotateX: enterRotateX,
           rotateY: enterRotateY,
           translateZ: enterTranslateZ,
-          scale: 0.94,
-          opacity: 0.35,
+          scale: isMobile ? 0.94 : 0.88,
+          opacity: 0.3,
+          transformOrigin: '50% 0%',
         },
         {
           rotateX: 0,
@@ -56,50 +59,77 @@ const ThreeDSection = ({ children, id, className = '', pageNumber = '' }) => {
           translateZ: 0,
           scale: 1,
           opacity: 1,
-          duration: 0.4,
+          transformOrigin: '50% 50%',
+          duration: 0.45,
           ease: 'power2.out',
         }
-      )
-        // Middle reading window: remains flat, crisp, and fully readable
-        .to(page, {
-          rotateX: 0,
-          rotateY: 0,
-          translateZ: 0,
-          scale: 1,
-          opacity: 1,
-          duration: 0.2,
-        })
-        // Exit: page rotates away into 3D depth
-        .to(page, {
-          rotateX: exitRotateX,
-          rotateY: exitRotateY,
-          translateZ: exitTranslateZ,
-          scale: 0.94,
-          opacity: 0.35,
-          duration: 0.4,
-          ease: 'power2.in',
-        });
+      );
 
-      // 3D Stagger animation for internal cards when section enters viewport
-      const cards = page.querySelectorAll('.card, .project-card, .skills-category, .timeline-item, .cert-card, .achievement-card');
+      // Step 2: Shadow overlay fades out as page levels flat
+      if (shadow) {
+        tl.fromTo(
+          shadow,
+          { opacity: 0.6 },
+          { opacity: 0, duration: 0.45, ease: 'power2.out' },
+          0
+        );
+      }
+
+      // Step 3: Hold flat & crisp reading window
+      tl.to(page, {
+        rotateX: 0,
+        rotateY: 0,
+        translateZ: 0,
+        scale: 1,
+        opacity: 1,
+        duration: 0.25,
+      });
+
+      // Step 4: Page turns away into 3D depth as user continues scrolling
+      tl.to(page, {
+        rotateX: exitRotateX,
+        rotateY: exitRotateY,
+        translateZ: exitTranslateZ,
+        scale: isMobile ? 0.94 : 0.88,
+        opacity: 0.3,
+        transformOrigin: '50% 100%',
+        duration: 0.45,
+        ease: 'power2.in',
+      });
+
+      if (shadow) {
+        tl.to(
+          shadow,
+          { opacity: 0.6, duration: 0.45, ease: 'power2.in' },
+          '>-0.45'
+        );
+      }
+
+      // Stagger 3D Card Floating Entry
+      const cards = page.querySelectorAll(
+        '.card, .project-card, .skills-category, .timeline-item, .cert-card, .achievement-card, .about-desc-card'
+      );
+
       if (cards.length > 0) {
         gsap.fromTo(
           cards,
           {
-            rotateY: isMobile ? 0 : -6,
-            translateZ: isMobile ? -15 : -40,
-            opacity: 0.6,
+            rotateX: isMobile ? 0 : 14,
+            translateY: isMobile ? 20 : 50,
+            translateZ: isMobile ? -20 : -60,
+            opacity: 0.4,
           },
           {
-            rotateY: 0,
+            rotateX: 0,
+            translateY: 0,
             translateZ: 0,
             opacity: 1,
-            stagger: 0.06,
-            duration: 0.5,
-            ease: 'power1.out',
+            stagger: 0.08,
+            duration: 0.6,
+            ease: 'power2.out',
             scrollTrigger: {
               trigger: section,
-              start: 'top 75%',
+              start: 'top 80%',
               toggleActions: 'play none none reverse',
             },
           }
@@ -113,11 +143,15 @@ const ThreeDSection = ({ children, id, className = '', pageNumber = '' }) => {
   return (
     <div ref={sectionRef} id={id} className={`threed-section-scene ${className}`}>
       <div ref={pageRef} className="threed-section-page">
+        <div ref={shadowRef} className="threed-page-shadow" aria-hidden="true" />
+
         {pageNumber && (
           <div className="notebook-page-tag" aria-hidden="true">
+            <span className="page-tag-line" />
             <span>PAGE {pageNumber}</span>
           </div>
         )}
+
         <div className="threed-page-content">{children}</div>
       </div>
     </div>

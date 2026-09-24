@@ -1,12 +1,12 @@
 .threed-section-scene {
-  perspective: 1200px;
+  perspective: 1000px;
   perspective-origin: 50% 50%;
   transform-style: preserve-3d;
   position: relative;
   width: 100%;
   box-sizing: border-box;
   margin: 0 auto;
-  padding: 10px 0;
+  padding: 24px 0;
   will-change: transform;
 }
 
@@ -15,47 +15,80 @@
   will-change: transform, opacity;
   position: relative;
   width: 100%;
-  border-radius: 20px;
-  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  border-radius: 24px;
+  transition: box-shadow 0.4s ease, border-color 0.4s ease;
   box-sizing: border-box;
+  background: transparent;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="light"] .threed-section-page {
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.08);
+}
+
+/* Dynamic 3D depth shadow overlay during page tilt */
+.threed-page-shadow {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.75) 100%);
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.1s linear;
+}
+
+[data-theme="light"] .threed-page-shadow {
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.4) 0%, rgba(15, 23, 42, 0.05) 50%, rgba(15, 23, 42, 0.4) 100%);
 }
 
 /* Notebook digital art book binding accent */
 .threed-section-page::before {
   content: '';
   position: absolute;
-  top: 20px;
-  bottom: 20px;
+  top: 24px;
+  bottom: 24px;
   left: 0;
-  width: 3px;
+  width: 4px;
   background: linear-gradient(
     180deg,
-    rgba(239, 68, 68, 0.6) 0%,
-    rgba(239, 68, 68, 0.15) 50%,
-    rgba(239, 68, 68, 0.6) 100%
+    rgba(239, 68, 68, 0.8) 0%,
+    rgba(239, 68, 68, 0.2) 50%,
+    rgba(239, 68, 68, 0.8) 100%
   );
   border-radius: 4px;
-  opacity: 0.7;
+  opacity: 0.85;
   pointer-events: none;
   z-index: 5;
-  transition: opacity 0.3s ease;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
 }
 
 /* Page number tag watermark in notebook header */
 .notebook-page-tag {
   position: absolute;
-  top: 12px;
-  right: 24px;
+  top: 14px;
+  right: 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-family: var(--font-body, inherit);
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--primary, #ef4444);
-  opacity: 0.45;
+  opacity: 0.6;
   pointer-events: none;
   z-index: 6;
   user-select: none;
+}
+
+.page-tag-line {
+  display: inline-block;
+  width: 20px;
+  height: 2px;
+  background: var(--primary, #ef4444);
+  border-radius: 1px;
 }
 
 .threed-page-content {
@@ -67,8 +100,8 @@
 /* Responsive tweaks for touch & mobile viewports */
 @media (max-width: 768px) {
   .threed-section-scene {
-    perspective: 800px;
-    padding: 0;
+    perspective: 700px;
+    padding: 12px 0;
   }
 
   .threed-section-page::before {
@@ -77,8 +110,8 @@
 
   .notebook-page-tag {
     right: 16px;
-    font-size: 0.55rem;
-    opacity: 0.35;
+    font-size: 0.58rem;
+    opacity: 0.45;
   }
 }
 
@@ -92,7 +125,8 @@
     opacity: 1 !important;
   }
   .threed-section-page::before,
-  .notebook-page-tag {
+  .notebook-page-tag,
+  .threed-page-shadow {
     display: none;
   }
 }
