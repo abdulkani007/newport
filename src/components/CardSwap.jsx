@@ -10,7 +10,7 @@ Card.displayName = 'Card';
 const makeSlot = (i, distX, distY, total) => ({
   x: i * distX,
   y: -i * distY,
-  z: -i * distX * 1.2,
+  z: -i * distX * 1.5,
   zIndex: total - i
 });
 
@@ -30,10 +30,10 @@ const placeNow = (el, slot, skew) => {
 };
 
 const CardSwap = ({
-  width = 680,
-  height = 200,
-  cardDistance = 28,
-  verticalDistance = 18,
+  width = 620,
+  height = 190,
+  cardDistance = 35,
+  verticalDistance = 45,
   delay = 0,
   pauseOnHover = true,
   scrollDriven = true,
@@ -92,9 +92,9 @@ const CardSwap = ({
     });
     tlRef.current = tl;
 
-    // Drop front card down cleanly by 260px
+    // Drop front card down cleanly by 240px
     tl.to(elFront, {
-      y: '+=260',
+      y: '+=240',
       duration: config.durDrop,
       ease: config.ease
     });
@@ -158,7 +158,7 @@ const CardSwap = ({
 
     let lastScrollY = window.scrollY || window.pageYOffset || 0;
     let accumulatedScroll = 0;
-    const threshold = 130;
+    const threshold = 120;
 
     const handleScroll = () => {
       const node = container.current;

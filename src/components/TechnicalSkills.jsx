@@ -55,10 +55,10 @@ export default function TechnicalSkills() {
 
         <div className="card-swap-wrapper">
           <CardSwap
-            width={680}
-            height={200}
-            cardDistance={28}
-            verticalDistance={18}
+            width={620}
+            height={190}
+            cardDistance={35}
+            verticalDistance={45}
             scrollDriven={true}
             pauseOnHover={true}
             skewAmount={2}
