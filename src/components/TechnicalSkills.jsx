@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Shuffle from './Shuffle';
 import CardSwap, { Card } from './CardSwap';
 import BorderGlow from './BorderGlow';
@@ -37,51 +37,78 @@ const skillGroups = [
 ];
 
 export default function TechnicalSkills() {
-  return (
-    <section id="skills" className="section technical-skills">
-      <div className="container">
-        <span className="section-tag">Stack & Tooling</span>
-        <Shuffle
-          text="Technical Skills"
-          tag="h2"
-          className="section-title"
-          shuffleDirection="right"
-          duration={0.35}
-          animationMode="evenodd"
-          shuffleTimes={1}
-          stagger={0.03}
-          triggerOnHover={true}
-        />
+  const trackRef = useRef(null);
+  const [activeStep, setActiveStep] = useState(0);
 
-        <div className="card-swap-wrapper">
-          <CardSwap
-            width={760}
-            height={290}
-            cardDistance={50}
-            verticalDistance={38}
-            scrollDriven={true}
-            pauseOnHover={true}
-            skewAmount={3}
-            easing="elastic"
-          >
-            {skillGroups.map((group, idx) => (
-              <Card key={idx}>
-                <BorderGlow className="skill-card-inner" style={{ height: '100%', padding: '2rem 2.4rem', borderRadius: '24px' }}>
-                  <div className="skill-card-header">
-                    <i className={group.icon}></i>
-                    <h3>{group.title}</h3>
-                  </div>
-                  <div className="skill-pills">
-                    {group.tags.map((tag, tIdx) => (
-                      <span key={tIdx} className="skill-pill">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </BorderGlow>
-              </Card>
-            ))}
-          </CardSwap>
+  useEffect(() => {
+    const handleScroll = () => {
+      const track = trackRef.current;
+      if (!track) return;
+
+      const rect = track.getBoundingClientRect();
+      const windowHeight = window.innerHeight || 800;
+      const scrollableDist = rect.height - windowHeight;
+
+      if (scrollableDist <= 0) return;
+
+      const scrolled = -rect.top;
+      const progress = Math.max(0, Math.min(0.999, scrolled / scrollableDist));
+      const step = Math.floor(progress * skillGroups.length);
+
+      setActiveStep(step);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <section id="skills" className="section technical-skills-pinned-track" ref={trackRef}>
+      <div className="technical-skills-sticky-viewport">
+        <div className="container">
+          <span className="section-tag">Stack & Tooling</span>
+          <Shuffle
+            text="Technical Skills"
+            tag="h2"
+            className="section-title"
+            shuffleDirection="right"
+            duration={0.35}
+            animationMode="evenodd"
+            shuffleTimes={1}
+            stagger={0.03}
+            triggerOnHover={true}
+          />
+
+          <div className="card-swap-wrapper">
+            <CardSwap
+              width={760}
+              height={290}
+              cardDistance={50}
+              verticalDistance={38}
+              stepIndex={activeStep}
+              skewAmount={3}
+              easing="elastic"
+            >
+              {skillGroups.map((group, idx) => (
+                <Card key={idx}>
+                  <BorderGlow className="skill-card-inner" style={{ height: '100%', padding: '2rem 2.4rem', borderRadius: '24px' }}>
+                    <div className="skill-card-header">
+                      <i className={group.icon}></i>
+                      <h3>{group.title}</h3>
+                    </div>
+                    <div className="skill-pills">
+                      {group.tags.map((tag, tIdx) => (
+                        <span key={tIdx} className="skill-pill">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </BorderGlow>
+                </Card>
+              ))}
+            </CardSwap>
+          </div>
         </div>
       </div>
     </section>

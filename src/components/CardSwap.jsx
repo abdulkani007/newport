@@ -36,7 +36,7 @@ const CardSwap = ({
   verticalDistance = 35,
   delay = 0,
   pauseOnHover = true,
-  scrollDriven = true,
+  stepIndex,
   onCardClick,
   skewAmount = 3,
   easing = 'elastic',
@@ -46,17 +46,17 @@ const CardSwap = ({
     easing === 'elastic'
       ? {
           ease: 'elastic.out(0.6,0.95)',
-          durDrop: 1.0,
-          durMove: 1.0,
-          durReturn: 1.0,
+          durDrop: 0.9,
+          durMove: 0.9,
+          durReturn: 0.9,
           promoteOverlap: 0.85,
-          returnDelay: 0.05
+          returnDelay: 0.04
         }
       : {
           ease: 'power2.inOut',
-          durDrop: 0.7,
-          durMove: 0.7,
-          durReturn: 0.7,
+          durDrop: 0.6,
+          durMove: 0.6,
+          durReturn: 0.6,
           promoteOverlap: 0.5,
           returnDelay: 0.15
         };
@@ -151,38 +151,26 @@ const CardSwap = ({
         placeNow(r.current, makeSlot(i, cardDistance, verticalDistance, total), skewAmount);
       }
     });
+  }, [cardDistance, verticalDistance, skewAmount, refs]);
 
-    if (scrollDriven) {
-      const handleScroll = () => {
-        const node = container.current;
-        if (!node) return;
+  useEffect(() => {
+    if (stepIndex === undefined || stepIndex === null) return;
+    if (stepIndex === lastStepRef.current) return;
 
-        const rect = node.getBoundingClientRect();
-        const windowHeight = window.innerHeight || 800;
+    const targetStep = stepIndex;
+    lastStepRef.current = targetStep;
 
-        // Progress of node as user scrolls through viewport
-        const start = windowHeight * 0.9;
-        const end = -rect.height + windowHeight * 0.1;
-        const totalDist = start - end;
-        const currentDist = start - rect.top;
+    const slotIdx = order.current.indexOf(targetStep);
+    if (slotIdx > 0) {
+      for (let k = 0; k < slotIdx; k++) {
+        swap();
+      }
+    }
+  }, [stepIndex, swap]);
 
-        const progress = Math.max(0, Math.min(0.99, currentDist / totalDist));
-        const totalCards = childArr.length;
-        const targetStep = Math.floor(progress * totalCards);
-
-        if (targetStep > lastStepRef.current) {
-          lastStepRef.current = targetStep;
-          swap();
-        }
-      };
-
-      window.addEventListener('scroll', handleScroll, { passive: true });
-      handleScroll();
-
-      return () => {
-        window.removeEventListener('scroll', handleScroll);
-      };
-    } else if (delay > 0) {
+  useEffect(() => {
+    if (stepIndex !== undefined) return;
+    if (delay > 0) {
       intervalRef.current = window.setInterval(swap, delay);
 
       if (pauseOnHover) {
@@ -207,7 +195,7 @@ const CardSwap = ({
       }
       return () => clearInterval(intervalRef.current);
     }
-  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, scrollDriven, swap, childArr.length, refs]);
+  }, [delay, pauseOnHover, stepIndex, swap]);
 
   const rendered = childArr.map((child, i) =>
     isValidElement(child)
