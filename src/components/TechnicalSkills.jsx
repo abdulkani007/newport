@@ -55,18 +55,18 @@ export default function TechnicalSkills() {
 
         <div className="card-swap-wrapper">
           <CardSwap
-            width={480}
-            height={220}
-            cardDistance={35}
-            verticalDistance={30}
-            delay={1000}
+            width={760}
+            height={290}
+            cardDistance={50}
+            verticalDistance={38}
+            scrollDriven={true}
             pauseOnHover={true}
             skewAmount={3}
             easing="elastic"
           >
             {skillGroups.map((group, idx) => (
               <Card key={idx}>
-                <BorderGlow className="skill-card-inner" style={{ height: '100%', padding: '1.5rem', borderRadius: '20px' }}>
+                <BorderGlow className="skill-card-inner" style={{ height: '100%', padding: '2rem 2.4rem', borderRadius: '24px' }}>
                   <div className="skill-card-header">
                     <i className={group.icon}></i>
                     <h3>{group.title}</h3>
