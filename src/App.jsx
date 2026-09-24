@@ -80,7 +80,9 @@ export default function App() {
         <Projects />
       </ThreeDSection>
 
-      <TechnicalSkills />
+      <ThreeDSection>
+        <TechnicalSkills />
+      </ThreeDSection>
 
       <ThreeDSection>
         <CodingProfiles />
