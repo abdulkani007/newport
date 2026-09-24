@@ -10,7 +10,7 @@ Card.displayName = 'Card';
 const makeSlot = (i, distX, distY, total) => ({
   x: i * distX,
   y: -i * distY,
-  z: -i * distX * 1.5,
+  z: -i * distX * 1.2,
   zIndex: total - i
 });
 
@@ -30,15 +30,15 @@ const placeNow = (el, slot, skew) => {
 };
 
 const CardSwap = ({
-  width = 760,
-  height = 290,
-  cardDistance = 50,
-  verticalDistance = 38,
+  width = 680,
+  height = 200,
+  cardDistance = 28,
+  verticalDistance = 18,
   delay = 0,
   pauseOnHover = true,
   scrollDriven = true,
   onCardClick,
-  skewAmount = 3,
+  skewAmount = 2,
   easing = 'elastic',
   children
 }) => {
@@ -46,9 +46,9 @@ const CardSwap = ({
     easing === 'elastic'
       ? {
           ease: 'elastic.out(0.6,0.95)',
-          durDrop: 0.9,
-          durMove: 0.9,
-          durReturn: 0.9,
+          durDrop: 0.8,
+          durMove: 0.8,
+          durReturn: 0.8,
           promoteOverlap: 0.85,
           returnDelay: 0.04
         }
@@ -92,8 +92,9 @@ const CardSwap = ({
     });
     tlRef.current = tl;
 
+    // Drop front card down cleanly by 260px
     tl.to(elFront, {
-      y: '+=450',
+      y: '+=260',
       duration: config.durDrop,
       ease: config.ease
     });
@@ -113,7 +114,7 @@ const CardSwap = ({
           duration: config.durMove,
           ease: config.ease
         },
-        `promote+=${i * 0.08}`
+        `promote+=${i * 0.06}`
       );
     });
 
@@ -157,7 +158,7 @@ const CardSwap = ({
 
     let lastScrollY = window.scrollY || window.pageYOffset || 0;
     let accumulatedScroll = 0;
-    const threshold = 140;
+    const threshold = 130;
 
     const handleScroll = () => {
       const node = container.current;
