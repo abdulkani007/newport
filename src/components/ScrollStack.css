@@ -15,7 +15,7 @@
 .scroll-stack-inner {
   position: relative;
   width: 100%;
-  padding: 1.5rem 0 6rem;
+  padding: 1.5rem 0 25vh;
   box-sizing: border-box;
 }
 
@@ -50,7 +50,7 @@
 
 @media (max-width: 768px) {
   .scroll-stack-inner {
-    padding: 1rem 0 3rem;
+    padding: 1rem 0 15vh;
   }
   .scroll-stack-card {
     padding: 1.25rem;
