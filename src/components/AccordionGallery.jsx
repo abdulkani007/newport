@@ -15,30 +15,26 @@ const AccordionGallery = ({
   accentColor = '#ef4444',
   overlayColor = '#060010',
   textColor = '#ffffff',
-  height = 500,
-  gap = 12,
+  height = 520,
+  gap = 14,
   radius = 20,
-  expandRatio = 0.55,
+  expandRatio = 0.58,
   orientation = 'horizontal',
-  duration = 0.6,
+  duration = 0.5,
   ease = 'power3.out',
-  parallax = 0.5,
-  tilt = 8,
-  stagger = 0.06,
+  parallax = 0.3,
+  tilt = 6,
   trigger = 'hover',
-  showLabels = true,
-  grayscale = true,
   className = ''
 }) => {
   const rootRef = useRef(null);
   const panelRefs = useRef([]);
   const mediaRefs = useRef([]);
-  const barRefs = useRef([]);
-  const textRefs = useRef([]);
   const bodyRefs = useRef([]);
+  const labelRefs = useRef([]);
   const tlRef = useRef(null);
   const firstRunRef = useRef(true);
-  const mediaSizeRef = useRef(360);
+  const mediaSizeRef = useRef(380);
 
   const vertical = orientation === 'vertical';
   const count = items.length;
@@ -66,9 +62,8 @@ const AccordionGallery = ({
         if (!panel) return;
         const isActive = i === active;
         const media = mediaRefs.current[i];
-        const bar = barRefs.current[i];
-        const text = textRefs.current[i];
         const body = bodyRefs.current[i];
+        const label = labelRefs.current[i];
 
         const rot = isActive ? 0 : i < active ? tilt : -tilt;
         const rotProp = vertical ? { rotateX: -rot } : { rotateY: rot };
@@ -77,8 +72,7 @@ const AccordionGallery = ({
 
         if (media) {
           const drift = Math.max(-1.5, Math.min(1.5, active - i));
-          const shift = drift * parallax * mediaSize * 0.06;
-          const gray = grayscale ? (isActive ? 0 : 0.85) : 0;
+          const shift = drift * parallax * mediaSize * 0.05;
           tl.to(
             media,
             {
@@ -86,8 +80,7 @@ const AccordionGallery = ({
               yPercent: -50,
               x: vertical ? 0 : isActive ? 0 : shift,
               y: vertical ? (isActive ? 0 : shift) : 0,
-              '--ag-gray': gray,
-              '--ag-dim': isActive ? 0.15 : 0.45,
+              '--ag-dim': isActive ? 0.1 : 0.4,
               duration: dur,
               ease
             },
@@ -95,19 +88,15 @@ const AccordionGallery = ({
           );
         }
 
-        if (showLabels && bar && text) {
-          if (isActive) {
-            tl.to([bar, text], { opacity: 1, x: 0, duration: dur, ease, stagger: prefersReduced ? 0 : stagger }, 0);
-          } else {
-            tl.to([bar, text], { opacity: 0, x: -14, duration: dur * 0.6, ease }, 0);
-          }
+        if (label) {
+          tl.to(label, { opacity: isActive ? 0 : 1, duration: dur * 0.5, ease }, 0);
         }
 
         if (body) {
           if (isActive) {
-            tl.to(body, { opacity: 1, y: 0, duration: dur, ease, delay: 0.1 }, 0);
+            tl.to(body, { opacity: 1, y: 0, pointerEvents: 'auto', duration: dur, ease, delay: 0.05 }, 0);
           } else {
-            tl.to(body, { opacity: 0, y: 15, duration: dur * 0.5, ease }, 0);
+            tl.to(body, { opacity: 0, y: 15, pointerEvents: 'none', duration: dur * 0.4, ease }, 0);
           }
         }
       });
@@ -123,9 +112,6 @@ const AccordionGallery = ({
       vertical,
       tilt,
       parallax,
-      grayscale,
-      showLabels,
-      stagger,
       prefersReduced
     ]
   );
@@ -134,20 +120,27 @@ const AccordionGallery = ({
     const el = rootRef.current;
     if (!el) return;
 
+    let rafId = 0;
     const measure = () => {
-      const rect = el.getBoundingClientRect();
-      const total = vertical ? rect.height : rect.width;
-      const usable = Math.max(total - gap * (count - 1), 120);
-      const size = Math.max(140, usable * Math.min(Math.max(expandRatio, 0.2), 0.9) * 1.22);
-      mediaSizeRef.current = size;
-      el.style.setProperty('--ag-media-size', `${size}px`);
-      applyLayout(!firstRunRef.current);
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const rect = el.getBoundingClientRect();
+        const total = vertical ? rect.height : rect.width;
+        const usable = Math.max(total - gap * (count - 1), 120);
+        const size = Math.max(140, usable * Math.min(Math.max(expandRatio, 0.2), 0.9) * 1.25);
+        mediaSizeRef.current = size;
+        el.style.setProperty('--ag-media-size', `${size}px`);
+        applyLayout(!firstRunRef.current);
+      });
     };
 
     measure();
     const ro = new ResizeObserver(measure);
     ro.observe(el);
-    return () => ro.disconnect();
+    return () => {
+      cancelAnimationFrame(rafId);
+      ro.disconnect();
+    };
   }, [applyLayout, gap, count, expandRatio, vertical]);
 
   useEffect(() => {
@@ -224,17 +217,17 @@ const AccordionGallery = ({
               <span className="ag-panel__overlay" aria-hidden="true" />
             </span>
 
-            {/* Header label bar */}
-            {showLabels && (
-              <span className="ag-panel__label" aria-hidden="true">
-                <span className="ag-panel__bar" ref={el => (barRefs.current[i] = el)} />
-                <span className="ag-panel__text" ref={el => (textRefs.current[i] = el)}>
-                  {item.title || item.label}
-                </span>
-              </span>
-            )}
+            {/* Collapsed side label - shown ONLY when panel is collapsed */}
+            <div
+              ref={el => (labelRefs.current[i] = el)}
+              className="ag-collapsed-label"
+              aria-hidden="true"
+            >
+              <span className="ag-collapsed-bar" />
+              <span className="ag-collapsed-text">{item.title || item.label}</span>
+            </div>
 
-            {/* Rich details box revealed on active panel */}
+            {/* Active panel details box - shown ONLY when expanded */}
             <div
               ref={el => (bodyRefs.current[i] = el)}
               className="ag-panel__details"
