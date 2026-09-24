@@ -30,13 +30,13 @@ const placeNow = (el, slot, skew) => {
 };
 
 const CardSwap = ({
-  width = 750,
-  height = 300,
-  cardDistance = 45,
-  verticalDistance = 35,
+  width = 760,
+  height = 290,
+  cardDistance = 50,
+  verticalDistance = 38,
   delay = 0,
   pauseOnHover = true,
-  stepIndex,
+  scrollDriven = true,
   onCardClick,
   skewAmount = 3,
   easing = 'elastic',
@@ -72,7 +72,6 @@ const CardSwap = ({
   const tlRef = useRef(null);
   const intervalRef = useRef();
   const container = useRef(null);
-  const lastStepRef = useRef(0);
   const isAnimatingRef = useRef(false);
 
   const swap = useCallback(() => {
@@ -154,48 +153,65 @@ const CardSwap = ({
   }, [cardDistance, verticalDistance, skewAmount, refs]);
 
   useEffect(() => {
-    if (stepIndex === undefined || stepIndex === null) return;
-    if (stepIndex === lastStepRef.current) return;
+    if (!scrollDriven) return;
 
-    const targetStep = stepIndex;
-    lastStepRef.current = targetStep;
+    let lastScrollY = window.scrollY || window.pageYOffset || 0;
+    let accumulatedScroll = 0;
+    const threshold = 140;
 
-    const slotIdx = order.current.indexOf(targetStep);
-    if (slotIdx > 0) {
-      for (let k = 0; k < slotIdx; k++) {
-        swap();
-      }
-    }
-  }, [stepIndex, swap]);
+    const handleScroll = () => {
+      const node = container.current;
+      if (!node) return;
 
-  useEffect(() => {
-    if (stepIndex !== undefined) return;
-    if (delay > 0) {
-      intervalRef.current = window.setInterval(swap, delay);
+      const rect = node.getBoundingClientRect();
+      const windowHeight = window.innerHeight || 800;
 
-      if (pauseOnHover) {
-        const node = container.current;
-        if (node) {
-          const pause = () => {
-            tlRef.current?.pause();
-            clearInterval(intervalRef.current);
-          };
-          const resume = () => {
-            tlRef.current?.play();
-            intervalRef.current = window.setInterval(swap, delay);
-          };
-          node.addEventListener('mouseenter', pause);
-          node.addEventListener('mouseleave', resume);
-          return () => {
-            node.removeEventListener('mouseenter', pause);
-            node.removeEventListener('mouseleave', resume);
-            clearInterval(intervalRef.current);
-          };
+      if (rect.top > windowHeight || rect.bottom < 0) return;
+
+      const currentScrollY = window.scrollY || window.pageYOffset || 0;
+      const delta = currentScrollY - lastScrollY;
+      lastScrollY = currentScrollY;
+
+      if (delta > 0) {
+        accumulatedScroll += delta;
+        if (accumulatedScroll >= threshold) {
+          accumulatedScroll = 0;
+          swap();
         }
       }
-      return () => clearInterval(intervalRef.current);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [scrollDriven, swap]);
+
+  useEffect(() => {
+    if (scrollDriven || delay <= 0) return;
+
+    intervalRef.current = window.setInterval(swap, delay);
+
+    if (pauseOnHover) {
+      const node = container.current;
+      if (node) {
+        const pause = () => {
+          tlRef.current?.pause();
+          clearInterval(intervalRef.current);
+        };
+        const resume = () => {
+          tlRef.current?.play();
+          intervalRef.current = window.setInterval(swap, delay);
+        };
+        node.addEventListener('mouseenter', pause);
+        node.addEventListener('mouseleave', resume);
+        return () => {
+          node.removeEventListener('mouseenter', pause);
+          node.removeEventListener('mouseleave', resume);
+          clearInterval(intervalRef.current);
+        };
+      }
     }
-  }, [delay, pauseOnHover, stepIndex, swap]);
+    return () => clearInterval(intervalRef.current);
+  }, [delay, pauseOnHover, scrollDriven, swap]);
 
   const rendered = childArr.map((child, i) =>
     isValidElement(child)

@@ -1,7 +1,7 @@
 import React from 'react';
 import Shuffle from './Shuffle';
+import CardSwap, { Card } from './CardSwap';
 import BorderGlow from './BorderGlow';
-import ScrollStack, { ScrollStackItem } from './ScrollStack';
 
 const skillGroups = [
   {
@@ -53,33 +53,36 @@ export default function TechnicalSkills() {
           triggerOnHover={true}
         />
 
-        <ScrollStack
-          useWindowScroll={true}
-          itemDistance={35}
-          itemScale={0.025}
-          itemStackDistance={75}
-          stackPosition="15%"
-          scaleEndPosition="10%"
-          baseScale={0.88}
-        >
-          {skillGroups.map((group, idx) => (
-            <ScrollStackItem key={idx}>
-              <BorderGlow className="skill-card">
-                <div className="skill-card-header">
-                  <i className={group.icon}></i>
-                  <h3>{group.title}</h3>
-                </div>
-                <div className="skill-pills">
-                  {group.tags.map((tag, tIdx) => (
-                    <span key={tIdx} className="skill-pill">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </BorderGlow>
-            </ScrollStackItem>
-          ))}
-        </ScrollStack>
+        <div className="card-swap-wrapper">
+          <CardSwap
+            width={760}
+            height={290}
+            cardDistance={50}
+            verticalDistance={38}
+            scrollDriven={true}
+            pauseOnHover={true}
+            skewAmount={3}
+            easing="elastic"
+          >
+            {skillGroups.map((group, idx) => (
+              <Card key={idx}>
+                <BorderGlow className="skill-card-inner" style={{ height: '100%', padding: '2rem 2.4rem', borderRadius: '24px' }}>
+                  <div className="skill-card-header">
+                    <i className={group.icon}></i>
+                    <h3>{group.title}</h3>
+                  </div>
+                  <div className="skill-pills">
+                    {group.tags.map((tag, tIdx) => (
+                      <span key={tIdx} className="skill-pill">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </BorderGlow>
+              </Card>
+            ))}
+          </CardSwap>
+        </div>
       </div>
     </section>
   );
