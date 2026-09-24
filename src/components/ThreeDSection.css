@@ -1,12 +1,12 @@
 .threed-section-scene {
-  perspective: 1000px;
+  perspective: 1100px;
   perspective-origin: 50% 50%;
   transform-style: preserve-3d;
   position: relative;
   width: 100%;
   box-sizing: border-box;
   margin: 0 auto;
-  padding: 24px 0;
+  padding: 32px 0;
   will-change: transform;
 }
 
@@ -16,14 +16,48 @@
   position: relative;
   width: 100%;
   border-radius: 24px;
-  transition: box-shadow 0.4s ease, border-color 0.4s ease;
   box-sizing: border-box;
-  background: transparent;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  
+  /* Distinct luxury page surface for Dark Theme */
+  background: var(--card-bg, #0e0e11);
+  border: 1px solid var(--card-border, #202025);
+  border-left: 4px solid var(--primary, #ef4444);
+  box-shadow:
+    0 35px 100px rgba(0, 0, 0, 0.9),
+    0 0 25px rgba(239, 68, 68, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  padding: 40px 32px;
+  transition: box-shadow 0.4s ease, border-color 0.4s ease, background-color 0.3s ease;
 }
 
+/* Light Theme luxury page surface */
 [data-theme="light"] .threed-section-page {
-  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid var(--primary, #ef4444);
+  box-shadow:
+    0 25px 70px rgba(15, 23, 42, 0.1),
+    0 4px 20px rgba(15, 23, 42, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* 3D Specular Top Rim Glow */
+.threed-page-glow {
+  position: absolute;
+  top: 0;
+  left: 5%;
+  right: 5%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(239, 68, 68, 0.8) 50%,
+    transparent 100%
+  );
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 12;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
 }
 
 /* Dynamic 3D depth shadow overlay during page tilt */
@@ -31,7 +65,12 @@
   position: absolute;
   inset: 0;
   border-radius: 24px;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.75) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.85) 0%,
+    rgba(0, 0, 0, 0.1) 50%,
+    rgba(0, 0, 0, 0.85) 100%
+  );
   pointer-events: none;
   z-index: 10;
   opacity: 0;
@@ -39,45 +78,29 @@
 }
 
 [data-theme="light"] .threed-page-shadow {
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.4) 0%, rgba(15, 23, 42, 0.05) 50%, rgba(15, 23, 42, 0.4) 100%);
-}
-
-/* Notebook digital art book binding accent */
-.threed-section-page::before {
-  content: '';
-  position: absolute;
-  top: 24px;
-  bottom: 24px;
-  left: 0;
-  width: 4px;
   background: linear-gradient(
     180deg,
-    rgba(239, 68, 68, 0.8) 0%,
-    rgba(239, 68, 68, 0.2) 50%,
-    rgba(239, 68, 68, 0.8) 100%
+    rgba(15, 23, 42, 0.45) 0%,
+    rgba(15, 23, 42, 0.03) 50%,
+    rgba(15, 23, 42, 0.45) 100%
   );
-  border-radius: 4px;
-  opacity: 0.85;
-  pointer-events: none;
-  z-index: 5;
-  box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
 }
 
 /* Page number tag watermark in notebook header */
 .notebook-page-tag {
   position: absolute;
-  top: 14px;
-  right: 28px;
+  top: 16px;
+  right: 32px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
   font-family: var(--font-body, inherit);
-  font-size: 0.65rem;
+  font-size: 0.68rem;
   font-weight: 800;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.26em;
   text-transform: uppercase;
   color: var(--primary, #ef4444);
-  opacity: 0.6;
+  opacity: 0.7;
   pointer-events: none;
   z-index: 6;
   user-select: none;
@@ -85,7 +108,7 @@
 
 .page-tag-line {
   display: inline-block;
-  width: 20px;
+  width: 24px;
   height: 2px;
   background: var(--primary, #ef4444);
   border-radius: 1px;
@@ -100,18 +123,19 @@
 /* Responsive tweaks for touch & mobile viewports */
 @media (max-width: 768px) {
   .threed-section-scene {
-    perspective: 700px;
-    padding: 12px 0;
+    perspective: 750px;
+    padding: 16px 0;
   }
 
-  .threed-section-page::before {
-    display: none;
+  .threed-section-page {
+    padding: 24px 16px;
+    border-radius: 18px;
   }
 
   .notebook-page-tag {
-    right: 16px;
-    font-size: 0.58rem;
-    opacity: 0.45;
+    right: 20px;
+    font-size: 0.6rem;
+    opacity: 0.5;
   }
 }
 
@@ -124,9 +148,9 @@
     transform: none !important;
     opacity: 1 !important;
   }
-  .threed-section-page::before,
   .notebook-page-tag,
-  .threed-page-shadow {
+  .threed-page-shadow,
+  .threed-page-glow {
     display: none;
   }
 }

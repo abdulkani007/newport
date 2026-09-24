@@ -9,11 +9,13 @@ const ThreeDSection = ({ children, id, className = '', pageNumber = '' }) => {
   const sectionRef = useRef(null);
   const pageRef = useRef(null);
   const shadowRef = useRef(null);
+  const glowRef = useRef(null);
 
   useEffect(() => {
     const section = sectionRef.current;
     const page = pageRef.current;
     const shadow = shadowRef.current;
+    const glow = glowRef.current;
     if (!section || !page) return;
 
     // Respect reduced motion
@@ -22,35 +24,35 @@ const ThreeDSection = ({ children, id, className = '', pageNumber = '' }) => {
 
     const isMobile = window.innerWidth <= 768;
 
-    // 3D Perspective Scroll parameters (Dramatic & Clearly Visible)
-    const enterRotateX = isMobile ? 12 : 22;
-    const enterRotateY = isMobile ? -4 : -8;
-    const enterTranslateZ = isMobile ? -60 : -160;
-    const exitRotateX = isMobile ? -12 : -22;
-    const exitRotateY = isMobile ? 4 : 8;
-    const exitTranslateZ = isMobile ? -60 : -160;
+    // 3D Perspective Scroll parameters (Strong, Crisp, Beautiful)
+    const enterRotateX = isMobile ? 14 : 26;
+    const enterRotateY = isMobile ? -5 : -10;
+    const enterTranslateZ = isMobile ? -70 : -180;
+    const exitRotateX = isMobile ? -14 : -26;
+    const exitRotateY = isMobile ? 5 : 10;
+    const exitTranslateZ = isMobile ? -70 : -180;
 
     const ctx = gsap.context(() => {
       // Timeline for 3D Page Turn Scrubbing
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
-          start: 'top 92%',
-          end: 'bottom 8%',
-          scrub: 0.8,
+          start: 'top 95%',
+          end: 'bottom 5%',
+          scrub: 0.7,
           invalidateOnRefresh: true,
         },
       });
 
-      // Step 1: Page enters from 3D depth, rotating into flat focus
+      // Step 1: Page rotates in from 3D depth into flat focus
       tl.fromTo(
         page,
         {
           rotateX: enterRotateX,
           rotateY: enterRotateY,
           translateZ: enterTranslateZ,
-          scale: isMobile ? 0.94 : 0.88,
-          opacity: 0.3,
+          scale: isMobile ? 0.93 : 0.86,
+          opacity: 0.25,
           transformOrigin: '50% 0%',
         },
         {
@@ -65,17 +67,25 @@ const ThreeDSection = ({ children, id, className = '', pageNumber = '' }) => {
         }
       );
 
-      // Step 2: Shadow overlay fades out as page levels flat
+      // Step 2: Shadow overlay & Specular edge glow transition
       if (shadow) {
         tl.fromTo(
           shadow,
-          { opacity: 0.6 },
+          { opacity: 0.75 },
           { opacity: 0, duration: 0.45, ease: 'power2.out' },
           0
         );
       }
+      if (glow) {
+        tl.fromTo(
+          glow,
+          { opacity: 0.9, scaleX: 0.7 },
+          { opacity: 0.2, scaleX: 1, duration: 0.45, ease: 'power2.out' },
+          0
+        );
+      }
 
-      // Step 3: Hold flat & crisp reading window
+      // Step 3: Hold flat & 100% crisp reading window
       tl.to(page, {
         rotateX: 0,
         rotateY: 0,
@@ -90,8 +100,8 @@ const ThreeDSection = ({ children, id, className = '', pageNumber = '' }) => {
         rotateX: exitRotateX,
         rotateY: exitRotateY,
         translateZ: exitTranslateZ,
-        scale: isMobile ? 0.94 : 0.88,
-        opacity: 0.3,
+        scale: isMobile ? 0.93 : 0.86,
+        opacity: 0.25,
         transformOrigin: '50% 100%',
         duration: 0.45,
         ease: 'power2.in',
@@ -100,7 +110,14 @@ const ThreeDSection = ({ children, id, className = '', pageNumber = '' }) => {
       if (shadow) {
         tl.to(
           shadow,
-          { opacity: 0.6, duration: 0.45, ease: 'power2.in' },
+          { opacity: 0.75, duration: 0.45, ease: 'power2.in' },
+          '>-0.45'
+        );
+      }
+      if (glow) {
+        tl.to(
+          glow,
+          { opacity: 0.9, scaleX: 0.7, duration: 0.45, ease: 'power2.in' },
           '>-0.45'
         );
       }
@@ -114,10 +131,10 @@ const ThreeDSection = ({ children, id, className = '', pageNumber = '' }) => {
         gsap.fromTo(
           cards,
           {
-            rotateX: isMobile ? 0 : 14,
-            translateY: isMobile ? 20 : 50,
-            translateZ: isMobile ? -20 : -60,
-            opacity: 0.4,
+            rotateX: isMobile ? 0 : 16,
+            translateY: isMobile ? 24 : 54,
+            translateZ: isMobile ? -24 : -70,
+            opacity: 0.35,
           },
           {
             rotateX: 0,
@@ -143,6 +160,7 @@ const ThreeDSection = ({ children, id, className = '', pageNumber = '' }) => {
   return (
     <div ref={sectionRef} id={id} className={`threed-section-scene ${className}`}>
       <div ref={pageRef} className="threed-section-page">
+        <div ref={glowRef} className="threed-page-glow" aria-hidden="true" />
         <div ref={shadowRef} className="threed-page-shadow" aria-hidden="true" />
 
         {pageNumber && (
