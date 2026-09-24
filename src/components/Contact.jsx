@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import BellToggle from './BellToggle';
 import Shuffle from './Shuffle';
 import BorderGlow from './BorderGlow';
+import SpecularButton from './SpecularButton';
 
 export default function Contact({ showToast, onMessageSaved }) {
   const [formData, setFormData] = useState({
@@ -190,9 +191,11 @@ export default function Contact({ showToast, onMessageSaved }) {
                 ></textarea>
               </div>
 
-              <button type="submit" className="btn-submit" disabled={loading}>
-                {loading ? 'Sending...' : 'Send Message'}
-              </button>
+              <div style={{ marginTop: '1.25rem' }}>
+                <SpecularButton type="submit" disabled={loading} style={{ width: '100%' }}>
+                  {loading ? 'Sending...' : 'Send Message'}
+                </SpecularButton>
+              </div>
             </form>
           </BorderGlow>
         </div>

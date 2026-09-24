@@ -8,6 +8,7 @@ import Projects from './components/Projects';
 import TechnicalSkills from './components/TechnicalSkills';
 import CodingProfiles from './components/CodingProfiles';
 import Achievements from './components/Achievements';
+import Certificates from './components/Certificates';
 import Contact from './components/Contact';
 import Messages from './components/Messages';
 import Footer from './components/Footer';
@@ -90,6 +91,10 @@ export default function App() {
 
       <ThreeDSection>
         <Achievements />
+      </ThreeDSection>
+
+      <ThreeDSection>
+        <Certificates />
       </ThreeDSection>
 
       <ThreeDSection>

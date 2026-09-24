@@ -1,4 +1,6 @@
 import React from 'react';
+import Shuffle from './Shuffle';
+import BorderGlow from './BorderGlow';
 
 const certsData = [
   {
@@ -50,11 +52,21 @@ export default function Certificates() {
     <section id="certificates" className="section certificate">
       <div className="container">
         <span className="section-tag">VERIFIED CREDENTIALS</span>
-        <h2 className="section-title">Certifications</h2>
+        <Shuffle
+          text="Certifications"
+          tag="h2"
+          className="section-title"
+          shuffleDirection="right"
+          duration={0.35}
+          animationMode="evenodd"
+          shuffleTimes={1}
+          stagger={0.03}
+          triggerOnHover={true}
+        />
 
         <div className="cert-grid">
           {certsData.map((cert, idx) => (
-            <div key={idx} className="card cert-card">
+            <BorderGlow key={idx} className="card cert-card">
               <div className="cert-img-wrapper">
                 <img src={cert.img} alt={cert.alt} />
               </div>
@@ -62,7 +74,7 @@ export default function Certificates() {
                 <h3>{cert.title}</h3>
                 <p>{cert.issuer}</p>
               </div>
-            </div>
+            </BorderGlow>
           ))}
         </div>
       </div>
