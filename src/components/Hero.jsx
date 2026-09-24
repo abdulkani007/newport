@@ -46,8 +46,9 @@ export default function Hero() {
     e.preventDefault();
     const target = document.getElementById(targetId);
     if (target) {
+      const targetTop = target.getBoundingClientRect().top + window.pageYOffset;
       window.scrollTo({
-        top: target.offsetTop - 80,
+        top: Math.max(0, targetTop - 80),
         behavior: 'smooth',
       });
     }

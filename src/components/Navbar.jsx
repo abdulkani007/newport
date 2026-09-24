@@ -17,30 +17,32 @@ export default function Navbar({ theme, toggleTheme }) {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = document.querySelectorAll('section');
+      const sections = document.querySelectorAll('section[id]');
       let current = 'home';
+      const scrollPosition = window.pageYOffset + 220;
       sections.forEach((section) => {
-        const sectionTop = section.offsetTop;
-        if (window.scrollY >= sectionTop - 180) {
+        const sectionTop = section.getBoundingClientRect().top + window.pageYOffset;
+        if (scrollPosition >= sectionTop) {
           current = section.getAttribute('id') || 'home';
         }
       });
       setActiveSection(current);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const handleItemClick = (e, href) => {
-    if (href.startsWith('#')) {
+    if (href && href.startsWith('#')) {
       e.preventDefault();
       const id = href.slice(1);
       const target = document.getElementById(id);
       if (target) {
+        const targetTop = target.getBoundingClientRect().top + window.pageYOffset;
         window.scrollTo({
-          top: target.offsetTop - 80,
+          top: Math.max(0, targetTop - 80),
           behavior: 'smooth',
         });
       }
