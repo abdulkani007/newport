@@ -1,4 +1,5 @@
 import React from 'react';
+import AccordionGallery from './AccordionGallery';
 import ProjectCard from './ProjectCard';
 import Shuffle from './Shuffle';
 
@@ -70,6 +71,21 @@ export default function Projects() {
           triggerOnHover={true}
         />
 
+        {/* 3D Accordion Gallery Interactive Showcase */}
+        <div style={{ marginBottom: '40px' }}>
+          <AccordionGallery
+            items={projectsData}
+            defaultIndex={0}
+            expandRatio={0.52}
+            trigger="hover"
+            height={520}
+            tilt={8}
+            stagger={0.06}
+            accentColor="#ef4444"
+          />
+        </div>
+
+        {/* Full Project Detail Cards Grid */}
         <div className="project-grid">
           {projectsData.map((project) => (
             <ProjectCard key={project.id} {...project} />
