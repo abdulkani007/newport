@@ -5,7 +5,7 @@ import './ThreeDSection.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const ThreeDSection = ({ children, id, className = '', pageNumber = '' }) => {
+const ThreeDSection = ({ children, id, className = '' }) => {
   const sectionRef = useRef(null);
   const pageRef = useRef(null);
   const shadowRef = useRef(null);
@@ -24,7 +24,7 @@ const ThreeDSection = ({ children, id, className = '', pageNumber = '' }) => {
 
     const isMobile = window.innerWidth <= 768;
 
-    // 3D Perspective Scroll parameters (Strong, Crisp, Beautiful)
+    // 3D Perspective Scroll parameters
     const enterRotateX = isMobile ? 14 : 26;
     const enterRotateY = isMobile ? -5 : -10;
     const enterTranslateZ = isMobile ? -70 : -180;
@@ -162,14 +162,6 @@ const ThreeDSection = ({ children, id, className = '', pageNumber = '' }) => {
       <div ref={pageRef} className="threed-section-page">
         <div ref={glowRef} className="threed-page-glow" aria-hidden="true" />
         <div ref={shadowRef} className="threed-page-shadow" aria-hidden="true" />
-
-        {pageNumber && (
-          <div className="notebook-page-tag" aria-hidden="true">
-            <span className="page-tag-line" />
-            <span>PAGE {pageNumber}</span>
-          </div>
-        )}
-
         <div className="threed-page-content">{children}</div>
       </div>
     </div>

@@ -62,37 +62,37 @@ export default function App() {
     <>
       <Navbar theme={theme} toggleTheme={toggleTheme} />
 
-      <ThreeDSection pageNumber="01">
+      <ThreeDSection>
         <Hero />
       </ThreeDSection>
 
       <Collaborators />
 
-      <ThreeDSection pageNumber="02">
+      <ThreeDSection>
         <About />
       </ThreeDSection>
 
-      <ThreeDSection pageNumber="03">
+      <ThreeDSection>
         <Experience />
       </ThreeDSection>
 
-      <ThreeDSection pageNumber="04">
+      <ThreeDSection>
         <Projects />
       </ThreeDSection>
 
-      <ThreeDSection pageNumber="05">
+      <ThreeDSection>
         <TechnicalSkills />
       </ThreeDSection>
 
-      <ThreeDSection pageNumber="06">
+      <ThreeDSection>
         <CodingProfiles />
       </ThreeDSection>
 
-      <ThreeDSection pageNumber="07">
+      <ThreeDSection>
         <Achievements />
       </ThreeDSection>
 
-      <ThreeDSection pageNumber="08">
+      <ThreeDSection>
         <Contact showToast={showToast} onMessageSaved={triggerMessageRefresh} />
       </ThreeDSection>
 

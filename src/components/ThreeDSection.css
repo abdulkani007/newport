@@ -86,34 +86,6 @@
   );
 }
 
-/* Page number tag watermark in notebook header */
-.notebook-page-tag {
-  position: absolute;
-  top: 16px;
-  right: 32px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-body, inherit);
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: var(--primary, #ef4444);
-  opacity: 0.7;
-  pointer-events: none;
-  z-index: 6;
-  user-select: none;
-}
-
-.page-tag-line {
-  display: inline-block;
-  width: 24px;
-  height: 2px;
-  background: var(--primary, #ef4444);
-  border-radius: 1px;
-}
-
 .threed-page-content {
   position: relative;
   z-index: 2;
@@ -131,12 +103,6 @@
     padding: 24px 16px;
     border-radius: 18px;
   }
-
-  .notebook-page-tag {
-    right: 20px;
-    font-size: 0.6rem;
-    opacity: 0.5;
-  }
 }
 
 /* Honor reduced motion preferences */
@@ -148,7 +114,6 @@
     transform: none !important;
     opacity: 1 !important;
   }
-  .notebook-page-tag,
   .threed-page-shadow,
   .threed-page-glow {
     display: none;
