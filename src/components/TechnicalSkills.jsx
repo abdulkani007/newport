@@ -1,5 +1,6 @@
 import React from 'react';
 import Shuffle from './Shuffle';
+import CardSwap, { Card } from './CardSwap';
 import BorderGlow from './BorderGlow';
 
 const skillGroups = [
@@ -52,22 +53,35 @@ export default function TechnicalSkills() {
           triggerOnHover={true}
         />
 
-        <div className="skills-grid">
-          {skillGroups.map((group, idx) => (
-            <BorderGlow key={idx} className="skill-card">
-              <div className="skill-card-header">
-                <i className={group.icon}></i>
-                <h3>{group.title}</h3>
-              </div>
-              <div className="skill-pills">
-                {group.tags.map((tag, tIdx) => (
-                  <span key={tIdx} className="skill-pill">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </BorderGlow>
-          ))}
+        <div className="card-swap-wrapper">
+          <CardSwap
+            width={480}
+            height={220}
+            cardDistance={35}
+            verticalDistance={30}
+            delay={3500}
+            pauseOnHover={true}
+            skewAmount={3}
+            easing="elastic"
+          >
+            {skillGroups.map((group, idx) => (
+              <Card key={idx}>
+                <BorderGlow className="skill-card-inner" style={{ height: '100%', padding: '1.5rem', borderRadius: '20px' }}>
+                  <div className="skill-card-header">
+                    <i className={group.icon}></i>
+                    <h3>{group.title}</h3>
+                  </div>
+                  <div className="skill-pills">
+                    {group.tags.map((tag, tIdx) => (
+                      <span key={tIdx} className="skill-pill">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </BorderGlow>
+              </Card>
+            ))}
+          </CardSwap>
         </div>
       </div>
     </section>
