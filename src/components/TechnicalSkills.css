@@ -33,26 +33,31 @@
   gap: 0.6rem;
   margin-bottom: 2.5rem;
   position: relative;
-  z-index: 30;
-  pointer-events: auto;
+  z-index: 100;
+  transform: translateZ(50px);
+  pointer-events: auto !important;
+  touch-action: manipulation;
 }
 
 .skills-filter-btn {
-  padding: 0.55rem 1.25rem;
+  padding: 0.55rem 1.15rem;
   border-radius: 30px;
   font-family: var(--font-heading);
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  white-space: nowrap !important;
+  flex-shrink: 0;
   background: var(--card-bg, rgba(255, 255, 255, 0.04));
   border: 1px solid var(--card-border, rgba(255, 255, 255, 0.12));
   color: var(--text-secondary, rgba(255, 255, 255, 0.7));
   cursor: pointer;
   position: relative;
-  z-index: 31;
-  pointer-events: auto;
+  z-index: 101;
+  pointer-events: auto !important;
   user-select: none;
+  touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
@@ -219,7 +224,15 @@
 
 @media (max-width: 768px) {
   .technical-skills-section {
-    padding: 60px 0;
+    padding: 50px 0;
+  }
+  .skills-filter-bar {
+    gap: 0.45rem;
+    margin-bottom: 1.75rem;
+  }
+  .skills-filter-btn {
+    padding: 0.5rem 0.95rem;
+    font-size: 0.72rem;
   }
   .skills-grid {
     grid-template-columns: 1fr;

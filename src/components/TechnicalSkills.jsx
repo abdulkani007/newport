@@ -122,8 +122,16 @@ export default function TechnicalSkills() {
           {filterCategories.map((cat) => (
             <button
               key={cat.id}
+              type="button"
               className={`skills-filter-btn ${activeFilter === cat.id ? 'active' : ''}`}
-              onClick={() => setActiveFilter(cat.id)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setActiveFilter(cat.id);
+              }}
+              onTouchEnd={(e) => {
+                e.stopPropagation();
+                setActiveFilter(cat.id);
+              }}
             >
               {cat.label}
             </button>
