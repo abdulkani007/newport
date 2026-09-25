@@ -208,6 +208,7 @@ export default function Hero() {
                 shineSize={14}
                 shineFade={40}
                 proximity={280}
+                href="#projects"
                 onClick={(e) => handleSmoothScroll(e, 'projects')}
                 className="btn-specular-primary"
               >
@@ -226,12 +227,10 @@ export default function Hero() {
                 shineSize={14}
                 shineFade={40}
                 proximity={280}
-                onClick={() => {
-                  const link = document.createElement('a');
-                  link.href = "Copy of Abdul's resume.pdf";
-                  link.download = "Copy of Abdul's resume.pdf";
-                  link.click();
-                }}
+                href="Copy of Abdul's resume.pdf"
+                download="Copy of Abdul's resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="btn-specular-secondary"
               >
                 Download Resume <i className="fas fa-download"></i>
@@ -250,8 +249,11 @@ export default function Hero() {
                   shineSize={16}
                   shineFade={40}
                   proximity={200}
-                  onClick={() => window.open('https://github.com/abdulkani007', '_blank', 'noreferrer')}
+                  href="https://github.com/abdulkani007"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="social-pill-specular"
+                  aria-label="GitHub Profile"
                 >
                   <i className="fab fa-github"></i>
                 </SpecularButton>
@@ -267,8 +269,11 @@ export default function Hero() {
                   shineSize={16}
                   shineFade={40}
                   proximity={200}
-                  onClick={() => window.open('https://www.linkedin.com/in/abdul-kani-b-3b89aa332?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app', '_blank', 'noreferrer')}
+                  href="https://www.linkedin.com/in/abdul-kani-b-3b89aa332?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="social-pill-specular"
+                  aria-label="LinkedIn Profile"
                 >
                   <i className="fab fa-linkedin"></i>
                 </SpecularButton>
@@ -284,8 +289,11 @@ export default function Hero() {
                   shineSize={16}
                   shineFade={40}
                   proximity={200}
-                  onClick={() => window.open('https://www.instagram.com/ab_naszz___?igsh=Mm1qYXB0YXBxNWY3', '_blank', 'noreferrer')}
+                  href="https://www.instagram.com/ab_naszz___?igsh=Mm1qYXB0YXBxNWY3"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="social-pill-specular"
+                  aria-label="Instagram Profile"
                 >
                   <i className="fab fa-instagram"></i>
                 </SpecularButton>

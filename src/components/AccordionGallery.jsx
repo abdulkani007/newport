@@ -160,6 +160,7 @@ const AccordionGallery = ({
   };
 
   const handleClick = (i, e) => {
+    if (e.target.closest('a')) return;
     if (i !== active) {
       e.preventDefault();
       setActive(i);
@@ -257,6 +258,7 @@ const AccordionGallery = ({
                   rel="noreferrer"
                   className="ag-github-btn"
                   onClick={e => e.stopPropagation()}
+                  onTouchEnd={e => e.stopPropagation()}
                 >
                   View Code <i className="fas fa-arrow-up-right-from-square" />
                 </a>

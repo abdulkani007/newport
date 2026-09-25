@@ -83,6 +83,11 @@ const SpecularButton = ({
   autoAnimate = false,
   disabled = false,
   onClick,
+  href,
+  target,
+  rel,
+  download,
+  'aria-label': ariaLabel,
   className = '',
   type = 'button',
   style = {}
@@ -219,8 +224,8 @@ const SpecularButton = ({
 
       idleAngle += p.speed * dt;
       const steer = p.followMouse && pointerAngle != null && (!p.autoAnimate || proximityT > 0);
-      const target = steer ? pointerAngle : idleAngle;
-      const diff = ((target - angle + Math.PI * 3) % (Math.PI * 2)) - Math.PI;
+      const targetAngle = steer ? pointerAngle : idleAngle;
+      const diff = ((targetAngle - angle + Math.PI * 3) % (Math.PI * 2)) - Math.PI;
       angle += diff * (1 - Math.exp(-dt * 7));
 
       const brightTarget = p.autoAnimate ? 1 : Math.max(proximityT, 0.5); // Ensure shine is visible on mobile touches
@@ -262,12 +267,25 @@ const SpecularButton = ({
     };
   }, []);
 
+  const Component = href ? 'a' : 'button';
+
   return (
-    <button
+    <Component
       ref={btnRef}
-      type={type}
+      href={href}
+      target={target}
+      rel={rel}
+      download={download}
+      type={href ? undefined : type}
       disabled={disabled}
       onClick={onClick}
+      onTouchEnd={(e) => {
+        if (disabled) return;
+        if (onClick) {
+          onClick(e);
+        }
+      }}
+      aria-label={ariaLabel}
       className={`specular-button specular-button--${size}${className ? ` ${className}` : ''}`}
       style={{
         '--sb-radius': `${radius}px`,
@@ -275,12 +293,13 @@ const SpecularButton = ({
         '--sb-tint-opacity': tintOpacity,
         '--sb-blur': `${blur}px`,
         '--sb-text-color': textColor,
+        textDecoration: 'none',
         ...style
       }}
     >
       <span ref={fxRef} className="specular-button__fx" aria-hidden="true" />
       <span className="specular-button__label">{children}</span>
-    </button>
+    </Component>
   );
 };
 
