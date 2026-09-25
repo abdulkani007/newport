@@ -1297,6 +1297,7 @@ h1, h2, h3, h4, h5, h6 {
   display: grid;
   grid-template-columns: 1fr 1.5fr;
   gap: 36px;
+  width: 100%;
 }
 
 .contact-info-card {
@@ -1304,12 +1305,18 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   flex-direction: column;
   gap: 28px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .contact-item {
   display: flex;
   align-items: flex-start;
   gap: 18px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .contact-item i {
@@ -1326,6 +1333,11 @@ h1, h2, h3, h4, h5, h6 {
   flex-shrink: 0;
 }
 
+.contact-item div {
+  flex: 1;
+  min-width: 0;
+}
+
 .contact-item h4 {
   font-size: 0.82rem;
   text-transform: uppercase;
@@ -1336,16 +1348,30 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .contact-item p {
-  font-size: 1.05rem;
+  font-size: 1.02rem;
   color: var(--text-primary);
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  margin: 2px 0;
 }
 
 .contact-form-card {
   padding: 32px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .form-group {
   margin-bottom: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-input, .form-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 100%;
 }
 
 .form-group label {
