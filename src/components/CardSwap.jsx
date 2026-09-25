@@ -1,4 +1,4 @@
-import React, { Children, cloneElement, forwardRef, isValidElement, useEffect, useMemo, useRef, useCallback } from 'react';
+import React, { Children, cloneElement, forwardRef, isValidElement, useEffect, useMemo, useRef, useCallback, useImperativeHandle } from 'react';
 import gsap from 'gsap';
 import './CardSwap.css';
 
@@ -29,36 +29,36 @@ const placeNow = (el, slot, skew) => {
   });
 };
 
-const CardSwap = ({
+const CardSwap = forwardRef(({
   width = 620,
   height = 190,
   cardDistance = 35,
   verticalDistance = 45,
-  delay = 0,
-  pauseOnHover = true,
   scrollDriven = true,
   onCardClick,
   skewAmount = 2,
   easing = 'elastic',
   children
-}) => {
+}, ref) => {
+  const isReducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   const config =
-    easing === 'elastic'
+    easing === 'elastic' && !isReducedMotion
       ? {
           ease: 'elastic.out(0.6,0.95)',
-          durDrop: 0.8,
-          durMove: 0.8,
-          durReturn: 0.8,
+          durDrop: 0.7,
+          durMove: 0.7,
+          durReturn: 0.7,
           promoteOverlap: 0.85,
           returnDelay: 0.04
         }
       : {
           ease: 'power2.inOut',
-          durDrop: 0.6,
-          durMove: 0.6,
-          durReturn: 0.6,
+          durDrop: isReducedMotion ? 0.2 : 0.5,
+          durMove: isReducedMotion ? 0.2 : 0.5,
+          durReturn: isReducedMotion ? 0.2 : 0.5,
           promoteOverlap: 0.5,
-          returnDelay: 0.15
+          returnDelay: 0.1
         };
 
   const childArr = useMemo(() => Children.toArray(children), [children]);
@@ -70,31 +70,35 @@ const CardSwap = ({
 
   const order = useRef(Array.from({ length: childArr.length }, (_, i) => i));
   const tlRef = useRef(null);
-  const intervalRef = useRef();
   const container = useRef(null);
   const isAnimatingRef = useRef(false);
 
-  const swap = useCallback(() => {
-    if (order.current.length < 2 || isAnimatingRef.current) return;
+  // Swap Forward (Scroll DOWN)
+  const swapForward = useCallback(() => {
+    if (order.current.length < 2 || isAnimatingRef.current) return false;
     isAnimatingRef.current = true;
 
     const [front, ...rest] = order.current;
     const elFront = refs[front]?.current;
     if (!elFront) {
       isAnimatingRef.current = false;
-      return;
+      return false;
     }
 
     const tl = gsap.timeline({
       onComplete: () => {
+        order.current = [...rest, front];
         isAnimatingRef.current = false;
       }
     });
     tlRef.current = tl;
 
-    // Drop front card down cleanly by 240px
+    // Physical 3D card lift & rotate down
     tl.to(elFront, {
-      y: '+=240',
+      y: '+=220',
+      rotateZ: isReducedMotion ? 0 : 5,
+      rotateX: isReducedMotion ? 0 : -8,
+      z: 60,
       duration: config.durDrop,
       ease: config.ease
     });
@@ -111,10 +115,12 @@ const CardSwap = ({
           x: slot.x,
           y: slot.y,
           z: slot.z,
+          rotateZ: 0,
+          rotateX: 0,
           duration: config.durMove,
           ease: config.ease
         },
-        `promote+=${i * 0.06}`
+        `promote+=${i * 0.04}`
       );
     });
 
@@ -133,17 +139,99 @@ const CardSwap = ({
         x: backSlot.x,
         y: backSlot.y,
         z: backSlot.z,
+        rotateZ: 0,
+        rotateX: 0,
         duration: config.durReturn,
         ease: config.ease
       },
       'return'
     );
 
-    tl.call(() => {
-      order.current = [...rest, front];
-    });
-  }, [cardDistance, verticalDistance, config, refs]);
+    return true;
+  }, [cardDistance, verticalDistance, config, refs, isReducedMotion]);
 
+  // Swap Backward (Scroll UP)
+  const swapBackward = useCallback(() => {
+    if (order.current.length < 2 || isAnimatingRef.current) return false;
+    isAnimatingRef.current = true;
+
+    const last = order.current[order.current.length - 1];
+    const rest = order.current.slice(0, order.current.length - 1);
+    const elLast = refs[last]?.current;
+    if (!elLast) {
+      isAnimatingRef.current = false;
+      return false;
+    }
+
+    const tl = gsap.timeline({
+      onComplete: () => {
+        order.current = [last, ...rest];
+        isAnimatingRef.current = false;
+      }
+    });
+    tlRef.current = tl;
+
+    const frontSlot = makeSlot(0, cardDistance, verticalDistance, refs.length);
+
+    // Demote rest cards back into their previous slots
+    rest.forEach((idx, i) => {
+      const el = refs[idx]?.current;
+      if (!el) return;
+      const slot = makeSlot(i + 1, cardDistance, verticalDistance, refs.length);
+      tl.set(el, { zIndex: slot.zIndex }, 0);
+      tl.to(
+        el,
+        {
+          x: slot.x,
+          y: slot.y,
+          z: slot.z,
+          rotateZ: 0,
+          rotateX: 0,
+          duration: config.durMove,
+          ease: config.ease
+        },
+        i * 0.04
+      );
+    });
+
+    tl.set(elLast, { zIndex: frontSlot.zIndex + 2 }, 0);
+    tl.to(
+      elLast,
+      {
+        y: '+=220',
+        rotateZ: isReducedMotion ? 0 : -5,
+        rotateX: isReducedMotion ? 0 : 8,
+        z: 80,
+        duration: config.durDrop * 0.5,
+        ease: 'power2.out'
+      },
+      0
+    );
+
+    tl.to(
+      elLast,
+      {
+        x: frontSlot.x,
+        y: frontSlot.y,
+        z: frontSlot.z,
+        rotateZ: 0,
+        rotateX: 0,
+        duration: config.durReturn,
+        ease: config.ease
+      },
+      `>-=0.1`
+    );
+
+    return true;
+  }, [cardDistance, verticalDistance, config, refs, isReducedMotion]);
+
+  useImperativeHandle(ref, () => ({
+    swapForward,
+    swapBackward,
+    isAnimating: () => isAnimatingRef.current
+  }));
+
+  // Initial layout placement
   useEffect(() => {
     const total = refs.length;
     refs.forEach((r, i) => {
@@ -153,66 +241,62 @@ const CardSwap = ({
     });
   }, [cardDistance, verticalDistance, skewAmount, refs]);
 
+  // Controlled Wheel Interceptor & Scroll Threshold Handler
   useEffect(() => {
     if (!scrollDriven) return;
+    const node = container.current;
+    if (!node) return;
 
-    let lastScrollY = window.scrollY || window.pageYOffset || 0;
-    let accumulatedScroll = 0;
-    const threshold = 120;
+    // Wheel event handler (1 wheel notch = 1 card swap, locks multiple triggers)
+    const handleWheel = (e) => {
+      if (isAnimatingRef.current) {
+        e.preventDefault();
+        return;
+      }
 
-    const handleScroll = () => {
-      const node = container.current;
-      if (!node) return;
-
-      const rect = node.getBoundingClientRect();
-      const windowHeight = window.innerHeight || 800;
-
-      if (rect.top > windowHeight || rect.bottom < 0) return;
-
-      const currentScrollY = window.scrollY || window.pageYOffset || 0;
-      const delta = currentScrollY - lastScrollY;
-      lastScrollY = currentScrollY;
+      const delta = e.deltaY;
+      if (Math.abs(delta) < 12) return;
 
       if (delta > 0) {
-        accumulatedScroll += delta;
-        if (accumulatedScroll >= threshold) {
-          accumulatedScroll = 0;
-          swap();
-        }
+        const moved = swapForward();
+        if (moved) e.preventDefault();
+      } else if (delta < 0) {
+        const moved = swapBackward();
+        if (moved) e.preventDefault();
       }
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [scrollDriven, swap]);
+    // Touch events for mobile swiping
+    let touchStartY = 0;
+    const handleTouchStart = (e) => {
+      touchStartY = e.touches[0].clientY;
+    };
+    const handleTouchMove = (e) => {
+      if (isAnimatingRef.current || !touchStartY) return;
+      const touchY = e.touches[0].clientY;
+      const deltaY = touchStartY - touchY;
 
-  useEffect(() => {
-    if (scrollDriven || delay <= 0) return;
-
-    intervalRef.current = window.setInterval(swap, delay);
-
-    if (pauseOnHover) {
-      const node = container.current;
-      if (node) {
-        const pause = () => {
-          tlRef.current?.pause();
-          clearInterval(intervalRef.current);
-        };
-        const resume = () => {
-          tlRef.current?.play();
-          intervalRef.current = window.setInterval(swap, delay);
-        };
-        node.addEventListener('mouseenter', pause);
-        node.addEventListener('mouseleave', resume);
-        return () => {
-          node.removeEventListener('mouseenter', pause);
-          node.removeEventListener('mouseleave', resume);
-          clearInterval(intervalRef.current);
-        };
+      if (Math.abs(deltaY) > 40) {
+        if (deltaY > 0) {
+          swapForward();
+        } else {
+          swapBackward();
+        }
+        touchStartY = 0;
       }
-    }
-    return () => clearInterval(intervalRef.current);
-  }, [delay, pauseOnHover, scrollDriven, swap]);
+    };
+
+    node.addEventListener('wheel', handleWheel, { passive: false });
+    node.addEventListener('touchstart', handleTouchStart, { passive: true });
+    node.addEventListener('touchmove', handleTouchMove, { passive: true });
+
+    return () => {
+      node.removeEventListener('wheel', handleWheel);
+      node.removeEventListener('touchstart', handleTouchStart);
+      node.removeEventListener('touchmove', handleTouchMove);
+      if (tlRef.current) tlRef.current.kill();
+    };
+  }, [scrollDriven, swapForward, swapBackward]);
 
   const rendered = childArr.map((child, i) =>
     isValidElement(child)
@@ -222,7 +306,7 @@ const CardSwap = ({
           style: { width: '100%', maxWidth: width, height, ...(child.props.style ?? {}) },
           onClick: e => {
             child.props.onClick?.(e);
-            swap();
+            swapForward();
             onCardClick?.(i);
           }
         })
@@ -234,6 +318,8 @@ const CardSwap = ({
       {rendered}
     </div>
   );
-};
+});
+
+CardSwap.displayName = 'CardSwap';
 
 export default CardSwap;
