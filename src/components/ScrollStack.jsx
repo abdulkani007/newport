@@ -8,12 +8,12 @@ export const ScrollStackItem = ({ children, itemClassName = '' }) => (
 const ScrollStack = ({
   children,
   className = '',
-  itemDistance = 35,
-  itemScale = 0.025,
-  itemStackDistance = 75,
-  stackPosition = '15%',
+  itemDistance = 24,
+  itemScale = 0.018,
+  itemStackDistance = 32,
+  stackPosition = '18%',
   scaleEndPosition = '10%',
-  baseScale = 0.88,
+  baseScale = 0.92,
   rotationAmount = 0,
   blurAmount = 0,
   useWindowScroll = true,
@@ -99,6 +99,8 @@ const ScrollStack = ({
     const stackPositionPx = parsePercentage(stackPosition, containerHeight);
     const scaleEndPositionPx = parsePercentage(scaleEndPosition, containerHeight);
     const endElementTop = endElementOffsetRef.current || 0;
+    const totalCards = cards.length;
+    const commonPinEnd = Math.max(0, endElementTop - stackPositionPx - itemStackDistance * totalCards);
 
     cards.forEach((card, i) => {
       if (!card) return;
@@ -107,11 +109,11 @@ const ScrollStack = ({
       const triggerStart = cardTop - stackPositionPx - itemStackDistance * i;
       const triggerEnd = cardTop - scaleEndPositionPx;
       const pinStart = cardTop - stackPositionPx - itemStackDistance * i;
-      const pinEnd = endElementTop - containerHeight / 2;
+      const pinEnd = commonPinEnd;
 
       const scaleProgress = calculateProgress(scrollTop, triggerStart, triggerEnd);
       const targetScale = baseScale + i * itemScale;
-      const scale = Math.max(0.7, 1 - scaleProgress * (1 - targetScale));
+      const scale = Math.max(0.75, 1 - scaleProgress * (1 - targetScale));
       const rotation = rotationAmount ? i * rotationAmount * scaleProgress : 0;
 
       let blur = 0;
@@ -132,11 +134,11 @@ const ScrollStack = ({
       }
 
       let translateY = 0;
-      const isPinned = scrollTop >= pinStart && scrollTop <= pinEnd;
+      const isPinned = scrollTop >= pinStart && (pinEnd <= pinStart || scrollTop <= pinEnd);
 
       if (isPinned) {
         translateY = scrollTop - cardTop + stackPositionPx + itemStackDistance * i;
-      } else if (scrollTop > pinEnd && pinEnd > 0) {
+      } else if (scrollTop > pinEnd && pinEnd > pinStart) {
         translateY = pinEnd - cardTop + stackPositionPx + itemStackDistance * i;
       }
 
@@ -166,7 +168,7 @@ const ScrollStack = ({
       }
 
       if (i === cards.length - 1) {
-        const isInView = scrollTop >= pinStart && scrollTop <= pinEnd;
+        const isInView = scrollTop >= pinStart && (pinEnd <= pinStart || scrollTop <= pinEnd);
         if (isInView && !stackCompletedRef.current) {
           stackCompletedRef.current = true;
           onStackComplete?.();
@@ -200,7 +202,6 @@ const ScrollStack = ({
     const scroller = scrollerRef.current;
     if (!scroller) return;
 
-    // Scope ONLY to this scroller container!
     const cards = Array.from(scroller.querySelectorAll('.scroll-stack-card'));
     cardsRef.current = cards;
     const transformsCache = lastTransformsRef.current;
@@ -251,7 +252,6 @@ const ScrollStack = ({
     <div className={`scroll-stack-scroller ${className}`.trim()} ref={scrollerRef}>
       <div className="scroll-stack-inner">
         {children}
-        {/* Spacer so the last pin can release cleanly */}
         <div className="scroll-stack-end" />
       </div>
     </div>

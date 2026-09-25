@@ -189,73 +189,10 @@ export default function Hero() {
             </ScrambledText>
 
             <div className="hero-badges">
-              <SpecularButton
-                size="sm"
-                radius={8}
-                tint="var(--badge-bg)"
-                tintOpacity={0.5}
-                textColor="var(--text-secondary)"
-                lineColor="#ffffff"
-                baseColor="#525252"
-                intensity={0.9}
-                shineSize={12}
-                shineFade={35}
-                proximity={200}
-                className="hero-badge-specular"
-              >
-                Frontend Engineering
-              </SpecularButton>
-
-              <SpecularButton
-                size="sm"
-                radius={8}
-                tint="var(--badge-bg)"
-                tintOpacity={0.5}
-                textColor="var(--text-secondary)"
-                lineColor="#ffffff"
-                baseColor="#525252"
-                intensity={0.9}
-                shineSize={12}
-                shineFade={35}
-                proximity={200}
-                className="hero-badge-specular"
-              >
-                MERN Stack
-              </SpecularButton>
-
-              <SpecularButton
-                size="sm"
-                radius={8}
-                tint="var(--badge-bg)"
-                tintOpacity={0.5}
-                textColor="var(--text-secondary)"
-                lineColor="#ffffff"
-                baseColor="#525252"
-                intensity={0.9}
-                shineSize={12}
-                shineFade={35}
-                proximity={200}
-                className="hero-badge-specular"
-              >
-                AI Systems
-              </SpecularButton>
-
-              <SpecularButton
-                size="sm"
-                radius={8}
-                tint="var(--badge-bg)"
-                tintOpacity={0.5}
-                textColor="var(--text-secondary)"
-                lineColor="#ffffff"
-                baseColor="#525252"
-                intensity={0.9}
-                shineSize={12}
-                shineFade={35}
-                proximity={200}
-                className="hero-badge-specular"
-              >
-                Competitive Programming
-              </SpecularButton>
+              <span className="hero-badge">Frontend Engineering</span>
+              <span className="hero-badge">MERN Stack</span>
+              <span className="hero-badge">AI Systems</span>
+              <span className="hero-badge">Competitive Programming</span>
             </div>
 
             <div className="hero-actions">

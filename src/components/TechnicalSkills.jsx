@@ -1,130 +1,164 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import gsap from 'gsap';
 import Shuffle from './Shuffle';
-import CardSwap, { Card } from './CardSwap';
 import BorderGlow from './BorderGlow';
+import './TechnicalSkills.css';
 
 const skillGroups = [
   {
+    id: 'languages',
     icon: 'fas fa-code',
+    category: 'Languages',
     title: 'Programming Languages',
-    tags: ['C', 'C++', 'Python', 'Java'],
+    description: 'Strong foundation in object-oriented, functional, and system programming.',
+    tags: ['C', 'C++', 'Python', 'Java']
   },
   {
+    id: 'frontend',
     icon: 'fas fa-laptop-code',
+    category: 'Frontend',
     title: 'Frontend Development',
-    tags: ['HTML5', 'CSS3', 'JavaScript', 'React.js'],
+    description: 'Crafting fluid, high-performance web applications and responsive interfaces.',
+    tags: ['HTML5', 'CSS3', 'JavaScript', 'React.js']
   },
   {
+    id: 'backend',
     icon: 'fas fa-server',
+    category: 'Backend',
     title: 'Backend Development',
-    tags: ['Node.js', 'Express.js'],
+    description: 'Building robust API gateways, server application logic, and microservices.',
+    tags: ['Node.js', 'Express.js']
   },
   {
+    id: 'databases',
     icon: 'fas fa-database',
+    category: 'Databases',
     title: 'Database Management',
-    tags: ['MySQL', 'MongoDB', 'Firebase'],
+    description: 'Designing structured schemas, relational databases, and real-time stores.',
+    tags: ['MySQL', 'MongoDB', 'Firebase']
   },
   {
+    id: 'tools',
     icon: 'fas fa-tools',
+    category: 'Tools',
     title: 'Tools & Technologies',
-    tags: ['VS Code', 'Git', 'IntelliJ IDEA', 'Canva', 'Flutter', 'Shell Scripting'],
+    description: 'Version control, developer utilities, workflow automation, and cross-platform tools.',
+    tags: ['VS Code', 'Git', 'IntelliJ IDEA', 'Canva', 'Flutter', 'Shell Scripting']
   },
   {
+    id: 'visualization',
     icon: 'fas fa-chart-bar',
+    category: 'Visualization',
     title: 'Data & Visualization',
-    tags: ['Matplotlib', 'Power BI'],
-  },
+    description: 'Data analytics, quantitative metrics, visual dashboards, and charting.',
+    tags: ['Matplotlib', 'Power BI']
+  }
 ];
 
 export default function TechnicalSkills() {
-  const cardSwapRef = useRef(null);
-  const sectionRef = useRef(null);
+  const [activeFilter, setActiveFilter] = useState('all');
+  const gridRef = useRef(null);
 
+  const filterCategories = [
+    { id: 'all', label: 'SHOW ALL' },
+    { id: 'languages', label: 'LANGUAGES' },
+    { id: 'frontend', label: 'FRONTEND' },
+    { id: 'backend', label: 'BACKEND' },
+    { id: 'databases', label: 'DATABASES' },
+    { id: 'tools', label: 'TOOLS' },
+    { id: 'visualization', label: 'VISUALIZATION' },
+  ];
+
+  const filteredGroups = activeFilter === 'all'
+    ? skillGroups
+    : skillGroups.filter(g => g.id === activeFilter);
+
+  // Scroll reveal animation
   useEffect(() => {
-    let lastScrollY = window.scrollY || window.pageYOffset || 0;
-    let accumulatedScroll = 0;
-    const threshold = 140;
+    const cards = gridRef.current?.querySelectorAll('.skills-card');
+    if (!cards || cards.length === 0) return;
 
-    const handleScroll = () => {
-      const section = sectionRef.current;
-      if (!section) return;
-
-      const rect = section.getBoundingClientRect();
-      const windowHeight = window.innerHeight || 800;
-
-      // Only trigger when Technical Skills is in viewport
-      if (rect.top > windowHeight * 0.85 || rect.bottom < windowHeight * 0.15) return;
-
-      const currentScrollY = window.scrollY || window.pageYOffset || 0;
-      const delta = currentScrollY - lastScrollY;
-      lastScrollY = currentScrollY;
-
-      if (Math.abs(delta) < 4) return;
-
-      accumulatedScroll += delta;
-
-      if (accumulatedScroll >= threshold) {
-        accumulatedScroll = 0;
-        if (cardSwapRef.current && !cardSwapRef.current.isAnimating()) {
-          cardSwapRef.current.swapForward();
-        }
-      } else if (accumulatedScroll <= -threshold) {
-        accumulatedScroll = 0;
-        if (cardSwapRef.current && !cardSwapRef.current.isAnimating()) {
-          cardSwapRef.current.swapBackward();
-        }
+    gsap.fromTo(
+      cards,
+      { opacity: 0, y: 35, scale: 0.94 },
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.6,
+        stagger: 0.08,
+        ease: 'power3.out',
+        overwrite: 'auto'
       }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    );
+  }, [activeFilter]);
 
   return (
-    <section id="skills" className="section technical-skills" ref={sectionRef}>
+    <section id="skills" className="section technical-skills-section">
       <div className="container">
-        <span className="section-tag">Stack & Tooling</span>
-        <Shuffle
-          text="Technical Skills"
-          tag="h2"
-          className="section-title"
-          shuffleDirection="right"
-          duration={0.35}
-          animationMode="evenodd"
-          shuffleTimes={1}
-          stagger={0.03}
-          triggerOnHover={true}
-        />
+        <div className="skills-header-row">
+          <div className="skills-title-col">
+            <span className="section-tag">02 / SYSTEMS & CAPABILITIES</span>
+            <Shuffle
+              text="Technical Skills"
+              tag="h2"
+              className="section-title"
+              shuffleDirection="right"
+              duration={0.35}
+              animationMode="evenodd"
+              shuffleTimes={1}
+              stagger={0.03}
+              triggerOnHover={true}
+            />
+          </div>
 
-        <div className="card-swap-wrapper">
-          <CardSwap
-            ref={cardSwapRef}
-            width={620}
-            height={190}
-            cardDistance={35}
-            verticalDistance={45}
-            scrollDriven={true}
-            skewAmount={2}
-            easing="elastic"
-          >
-            {skillGroups.map((group, idx) => (
-              <Card key={idx}>
-                <BorderGlow className="skill-card-inner" style={{ borderRadius: '20px' }}>
-                  <div className="skill-card-header">
+          <p className="skills-intro-desc">
+            Interactive breakdown of technologies, frameworks, and developer tools powering full-stack web applications and data systems.
+          </p>
+        </div>
+
+        {/* Filter Pills */}
+        <div className="skills-filter-bar">
+          {filterCategories.map((cat) => (
+            <button
+              key={cat.id}
+              className={`skills-filter-btn ${activeFilter === cat.id ? 'active' : ''}`}
+              onClick={() => setActiveFilter(cat.id)}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Cards Grid */}
+        <div ref={gridRef} className="skills-grid">
+          {filteredGroups.map((group, idx) => (
+            <div key={group.id} className="skills-card">
+              <BorderGlow className="skills-card-inner" style={{ borderRadius: '24px' }}>
+                <div className="skills-card-header">
+                  <div className="skills-icon-badge">
                     <i className={group.icon}></i>
-                    <h3>{group.title}</h3>
                   </div>
-                  <div className="skill-pills">
+                  <span className="skills-number">0{idx + 1}</span>
+                </div>
+
+                <div className="skills-card-body">
+                  <h3>{group.title}</h3>
+                  <p>{group.description}</p>
+                </div>
+
+                <div className="skills-card-footer">
+                  <div className="skills-pills-list">
                     {group.tags.map((tag, tIdx) => (
-                      <span key={tIdx} className="skill-pill">
+                      <span key={tIdx} className="skill-pill-tag">
                         {tag}
                       </span>
                     ))}
                   </div>
-                </BorderGlow>
-              </Card>
-            ))}
-          </CardSwap>
+                </div>
+              </BorderGlow>
+            </div>
+          ))}
         </div>
       </div>
     </section>

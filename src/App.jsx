@@ -14,6 +14,7 @@ import Footer from './components/Footer';
 import BackToTop from './components/BackToTop';
 import Toast from './components/Toast';
 import ThreeDSection from './components/ThreeDSection';
+import Lenis from 'lenis';
 
 export default function App() {
   const [theme, setTheme] = useState('dark');
@@ -28,6 +29,27 @@ export default function App() {
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
+
+  // Global Lenis Smooth Momentum Scroll Initialization
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      touchMultiplier: 1.5,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+    };
+  }, []);
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));

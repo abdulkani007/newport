@@ -5,40 +5,46 @@ import ScrollStack, { ScrollStackItem } from './ScrollStack';
 
 const achievementsData = [
   {
+    icon: 'fas fa-star',
+    award: 'UX Excellence Award',
+    college: 'Sri Eshwar College of Engineering',
+    event: 'Agentverse Hackathon',
+    badge: 'SPECIAL AWARD',
+  },
+  {
     icon: 'fas fa-trophy',
-    title: 'Runner-up',
-    subtitle: 'Ripple Room - Srishti 2K25',
-    venue: 'PSG Tech',
+    award: 'Runner-up (Ripple Room)',
+    college: 'PSG Tech',
+    event: 'Srishti 2K25',
+    badge: '2ND PLACE',
   },
   {
     icon: 'fas fa-award',
-    title: '2nd Prize',
-    subtitle: 'Paper Presentation',
-    venue: "Fiestaa '26 - KPR College",
+    award: '2nd Prize (Paper Presentation)',
+    college: "Fiestaa '26 - KPR College",
+    event: 'Paper Presentation',
+    badge: '2ND PLACE',
   },
   {
-    icon: 'fas fa-medal',
-    title: 'Finalist',
-    subtitle: 'Embadathon',
-    venue: 'Embedded Systems Hackathon',
+    icon: 'fas fa-certificate',
+    award: 'Project Presentation Finalist',
+    college: 'Karpagam Institute of Technology',
+    event: 'Project Presentation',
+    badge: 'FINALIST',
   },
   {
     icon: 'fas fa-laptop-code',
-    title: 'Hackathon Participant',
-    subtitle: 'Gen AI & IoT Hackathons',
-    venue: 'Multiple Platforms',
+    award: 'Top 10 (24-Hour Hackathon)',
+    college: 'CMR College, Hyderabad',
+    event: '24-Hour Hackathon',
+    badge: 'TOP 10',
   },
   {
-    icon: 'fas fa-lightbulb',
-    title: 'Innovation Events',
-    subtitle: 'Creatathon & Freshathon',
-    venue: 'Active Participant',
-  },
-  {
-    icon: 'fas fa-code',
-    title: 'Online Hackathons',
-    subtitle: 'Unstop & Devfolio',
-    venue: 'Regular Participant',
+    icon: 'fas fa-medal',
+    award: 'Embadathon Finalist',
+    college: 'Embedded Systems Hackathon',
+    event: 'Embadathon',
+    badge: 'FINALIST',
   },
 ];
 
@@ -61,23 +67,36 @@ export default function Achievements() {
 
         <ScrollStack
           useWindowScroll={true}
-          itemDistance={35}
-          itemScale={0.025}
-          itemStackDistance={75}
-          stackPosition="15%"
+          itemDistance={24}
+          itemScale={0.018}
+          itemStackDistance={32}
+          stackPosition="18%"
           scaleEndPosition="10%"
-          baseScale={0.88}
+          baseScale={0.92}
         >
           {achievementsData.map((item, idx) => (
             <ScrollStackItem key={idx}>
               <BorderGlow className="achievement-card">
-                <div className="achievement-icon">
-                  <i className={item.icon}></i>
+                <div className="achievement-left">
+                  <div className="achievement-icon">
+                    <i className={item.icon}></i>
+                  </div>
+                  <div className="achievement-content">
+                    <h3 className="achievement-award-title">{item.award}</h3>
+                    <p className="achievement-college-name">
+                      <strong>{item.college}</strong>
+                    </p>
+                    <span className="achievement-event-name">
+                      <strong>Event:</strong> {item.event}
+                    </span>
+                  </div>
                 </div>
-                <div className="achievement-details">
-                  <h3>{item.title}</h3>
-                  <p>{item.subtitle}</p>
-                  <span className="achievement-venue">{item.venue}</span>
+
+                <div className="achievement-right">
+                  <div className="achievement-badge-pill">
+                    <i className="fas fa-award"></i>
+                    <span>{item.badge}</span>
+                  </div>
                 </div>
               </BorderGlow>
             </ScrollStackItem>

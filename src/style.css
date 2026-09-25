@@ -547,14 +547,33 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .hero-badge {
-  padding: 8px 16px;
-  border-radius: 6px;
-  border: 1px solid var(--card-border);
-  background: var(--badge-bg);
-  font-size: 0.85rem;
-  letter-spacing: 0.08em;
-  color: var(--text-secondary);
-  font-weight: 500;
+  padding: 8px 18px;
+  border-radius: 20px;
+  border: 1px solid var(--card-border, rgba(255, 255, 255, 0.12));
+  background: var(--badge-bg, rgba(255, 255, 255, 0.04));
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.8));
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+
+[data-theme="light"] .hero-badge {
+  background: rgba(15, 23, 42, 0.05);
+  border-color: rgba(15, 23, 42, 0.12);
+  color: #0f172a;
+}
+
+.hero-badge:hover {
+  border-color: var(--primary, #ef4444);
+  color: var(--primary, #ef4444);
+  background: var(--primary-subtle, rgba(239, 68, 68, 0.12));
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.25);
 }
 
 .hero-actions {
@@ -1163,45 +1182,114 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .achievement-card {
-  padding: 26px;
+  padding: 24px 28px;
   display: flex;
-  gap: 16px;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.achievement-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex: 1;
 }
 
 .achievement-icon {
-  width: 46px;
-  height: 46px;
-  border-radius: 10px;
-  border: 1px solid var(--primary-border);
-  background: var(--primary-subtle);
-  color: var(--primary);
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  border: 1px solid var(--primary-border, rgba(239, 68, 68, 0.3));
+  background: var(--primary-subtle, rgba(239, 68, 68, 0.12));
+  color: var(--primary, #ef4444);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.35rem;
+  font-size: 1.45rem;
   flex-shrink: 0;
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2);
 }
 
-.achievement-details h3 {
+.achievement-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.achievement-award-title {
   font-family: var(--font-heading);
   font-size: 1.35rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--text-primary, #ffffff);
+  margin: 0;
+  letter-spacing: -0.01em;
 }
 
-.achievement-details p {
-  font-size: 1.02rem;
-  color: var(--text-secondary);
-  margin: 4px 0;
+[data-theme="light"] .achievement-award-title {
+  color: #0f172a;
 }
 
-.achievement-venue {
-  font-size: 0.82rem;
+.achievement-college-name {
+  font-size: 0.98rem;
+  color: var(--text-primary, #ffffff);
+  font-weight: 700 !important;
+  margin: 0;
+}
+
+[data-theme="light"] .achievement-college-name {
+  color: #1e293b;
+}
+
+.achievement-event-name {
+  font-size: 0.85rem;
+  color: var(--primary, #ef4444);
+  font-weight: 700 !important;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--text-muted);
-  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+
+.achievement-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+.achievement-badge-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: 30px;
+  background: var(--primary-subtle, rgba(239, 68, 68, 0.12));
+  border: 1px solid var(--primary-border, rgba(239, 68, 68, 0.35));
+  color: var(--primary, #ef4444);
+  font-family: monospace;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.25);
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .achievement-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    gap: 14px;
+  }
+  .achievement-left {
+    width: 100%;
+  }
+  .achievement-right {
+    width: 100%;
+    justify-content: flex-start;
+  }
 }
 
 /* CONTACT SECTION */
