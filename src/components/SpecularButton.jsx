@@ -269,6 +269,24 @@ const SpecularButton = ({
 
   const Component = href ? 'a' : 'button';
 
+  const handleTouchEnd = (e) => {
+    if (disabled) return;
+    if (onClick) {
+      onClick(e);
+    } else if (href) {
+      if (download) {
+        // Let native download anchor handle it or trigger direct link click
+        return;
+      }
+      e.preventDefault();
+      if (target === '_blank') {
+        window.open(href, '_blank', rel ? 'noopener,noreferrer' : undefined);
+      } else {
+        window.location.href = href;
+      }
+    }
+  };
+
   return (
     <Component
       ref={btnRef}
@@ -279,12 +297,7 @@ const SpecularButton = ({
       type={href ? undefined : type}
       disabled={disabled}
       onClick={onClick}
-      onTouchEnd={(e) => {
-        if (disabled) return;
-        if (onClick) {
-          onClick(e);
-        }
-      }}
+      onTouchEnd={handleTouchEnd}
       aria-label={ariaLabel}
       className={`specular-button specular-button--${size}${className ? ` ${className}` : ''}`}
       style={{

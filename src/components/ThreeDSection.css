@@ -55,8 +55,8 @@
     transparent 100%
   );
   border-radius: 2px;
-  pointer-events: none;
-  z-index: 12;
+  pointer-events: none !important;
+  z-index: 2;
   box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
 }
 
@@ -71,8 +71,8 @@
     rgba(0, 0, 0, 0.1) 50%,
     rgba(0, 0, 0, 0.85) 100%
   );
-  pointer-events: none;
-  z-index: 10;
+  pointer-events: none !important;
+  z-index: 1;
   opacity: 0;
   transition: opacity 0.1s linear;
 }
@@ -88,20 +88,33 @@
 
 .threed-page-content {
   position: relative;
-  z-index: 2;
+  z-index: 20;
+  pointer-events: auto !important;
   width: 100%;
 }
 
 /* Responsive tweaks for touch & mobile viewports */
 @media (max-width: 768px) {
   .threed-section-scene {
-    perspective: 750px;
+    perspective: none;
     padding: 16px 0;
+    transform-style: flat;
   }
 
   .threed-section-page {
     padding: 24px 16px;
     border-radius: 18px;
+    transform-style: flat;
+  }
+
+  .threed-page-shadow,
+  .threed-page-glow {
+    display: none !important;
+  }
+
+  .threed-page-content {
+    z-index: 20 !important;
+    pointer-events: auto !important;
   }
 }
 

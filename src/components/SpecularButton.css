@@ -140,6 +140,12 @@
   border-color: var(--primary-border);
 }
 
+@media (max-width: 768px) {
+  .specular-button__fx {
+    display: none !important;
+  }
+}
+
 @media (max-width: 600px) {
   .btn-specular-primary,
   .btn-specular-secondary {
