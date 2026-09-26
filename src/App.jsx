@@ -14,6 +14,7 @@ import Footer from './components/Footer';
 import BackToTop from './components/BackToTop';
 import Toast from './components/Toast';
 import ThreeDSection from './components/ThreeDSection';
+import CustomCursor from './components/CustomCursor';
 import Lenis from 'lenis';
 
 export default function App() {
@@ -121,6 +122,7 @@ export default function App() {
       <Messages showToast={showToast} refreshTrigger={refreshMessages} />
       <Footer />
       <BackToTop />
+      <CustomCursor />
       <Toast toastState={toastState} onClose={hideToast} />
     </>
   );
