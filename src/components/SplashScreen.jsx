@@ -42,21 +42,18 @@ export default function SplashScreen({ onComplete }) {
 
   return (
     <div className={`splash-overlay ${isExiting ? 'splash-exit' : ''}`}>
-      {/* Ambient Laser Glow Orbs */}
+      {/* Background Ambient Glow */}
       <div className="splash-ambient-glow" />
-      <div className="splash-laser-ring" />
 
-      <div className="splash-box">
-        {/* Animated AB Monogram Logo */}
-        <div className="splash-logo-container">
-          <div className="splash-logo-glow-wrapper">
-            <img src={abLogo} alt="AB Monogram Logo" className="splash-logo-img" />
-          </div>
+      <div className="splash-content">
+        {/* Seamless AB Monogram Logo */}
+        <div className="splash-logo-wrapper">
+          <img src={abLogo} alt="AB Monogram" className="splash-logo-img" />
         </div>
 
-        <span className="splash-sub-text">ABDUL KANI</span>
+        <h1 className="splash-title">ABDUL KANI</h1>
 
-        {/* Sleek Progress Loader */}
+        {/* Sleek Minimal Loader Line & Counter */}
         <div className="splash-loader-block">
           <div className="splash-progress-track">
             <div className="splash-progress-fill" style={{ width: `${progress}%` }} />
