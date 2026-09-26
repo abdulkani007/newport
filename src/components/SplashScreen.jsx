@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import abLogo from '../../ab.jpg';
 import './SplashScreen.css';
 
 export default function SplashScreen({ onComplete }) {
@@ -24,7 +25,7 @@ export default function SplashScreen({ onComplete }) {
             document.body.style.overflow = '';
             if (onComplete) onComplete();
           }, 700);
-        }, 300);
+        }, 350);
       }
       setProgress(currentProgress);
     }, 35);
@@ -41,20 +42,21 @@ export default function SplashScreen({ onComplete }) {
 
   return (
     <div className={`splash-overlay ${isExiting ? 'splash-exit' : ''}`}>
+      {/* Ambient Laser Glow Orbs */}
       <div className="splash-ambient-glow" />
+      <div className="splash-laser-ring" />
 
       <div className="splash-box">
-        {/* Monogram ABBU */}
-        <div className="splash-logo-letters">
-          <div className="splash-char-box"><span className="splash-char ch-1">A</span></div>
-          <div className="splash-char-box"><span className="splash-char ch-2">B</span></div>
-          <div className="splash-char-box"><span className="splash-char ch-3">B</span></div>
-          <div className="splash-char-box"><span className="splash-char ch-4">U</span></div>
+        {/* Animated AB Monogram Logo */}
+        <div className="splash-logo-container">
+          <div className="splash-logo-glow-wrapper">
+            <img src={abLogo} alt="AB Monogram Logo" className="splash-logo-img" />
+          </div>
         </div>
 
         <span className="splash-sub-text">ABDUL KANI</span>
 
-        {/* Minimal Loader Line & Counter */}
+        {/* Sleek Progress Loader */}
         <div className="splash-loader-block">
           <div className="splash-progress-track">
             <div className="splash-progress-fill" style={{ width: `${progress}%` }} />
@@ -62,7 +64,7 @@ export default function SplashScreen({ onComplete }) {
 
           <div className="splash-info-row">
             <span className="splash-status-text">
-              {progress < 100 ? 'LOADING' : 'READY'}
+              {progress < 100 ? 'INITIALIZING' : 'WELCOME'}
             </span>
             <span className="splash-counter">{formattedProgress}%</span>
           </div>
