@@ -1,34 +1,28 @@
-import { useEffect, useRef, useState } from 'react';
-
+import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import './PillNav.css';
 
 const PillNav = ({
   logo,
-  logoAlt = 'Logo',
+  logoAlt = 'AB Monogram',
+  brandName = 'ABDUL KANI',
   items = [],
   activeHref,
   className = '',
   ease = 'power3.easeOut',
-  baseColor = '#050507',
-  pillColor = '#120F17',
-  hoveredPillTextColor = '#ffffff',
-  pillTextColor = '#ffffff',
   onMobileMenuClick,
   onItemClick,
-  initialLoadAnimation = true,
+  theme,
+  toggleTheme,
+  resumeUrl = "Copy of Abdul's resume.pdf",
+  isScrolled = false,
 }) => {
-  const resolvedPillTextColor = pillTextColor ?? baseColor;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const circleRefs = useRef([]);
   const tlRefs = useRef([]);
   const activeTweenRefs = useRef([]);
-  const logoImgRef = useRef(null);
-  const logoTweenRef = useRef(null);
   const hamburgerRef = useRef(null);
   const mobileMenuRef = useRef(null);
-  const navItemsRef = useRef(null);
-  const logoRef = useRef(null);
 
   useEffect(() => {
     const layout = () => {
@@ -38,6 +32,8 @@ const PillNav = ({
         const pill = circle.parentElement;
         const rect = pill.getBoundingClientRect();
         const { width: w, height: h } = rect;
+        if (w === 0 || h === 0) return;
+
         const R = (w * w / 4 + h * h) / (2 * h);
         const D = Math.ceil(2 * R) + 2;
         const delta = Math.ceil(R - Math.sqrt(Math.max(0, R * R - w * w / 4))) + 1;
@@ -54,10 +50,10 @@ const PillNav = ({
         });
 
         const label = pill.querySelector('.pill-label');
-        const white = pill.querySelector('.pill-label-hover');
+        const hoverLabel = pill.querySelector('.pill-label-hover');
 
         if (label) gsap.set(label, { y: 0 });
-        if (white) gsap.set(white, { y: h + 12, opacity: 0 });
+        if (hoverLabel) gsap.set(hoverLabel, { y: h + 12, opacity: 0 });
 
         const index = circleRefs.current.indexOf(circle);
         if (index === -1) return;
@@ -65,15 +61,15 @@ const PillNav = ({
         tlRefs.current[index]?.kill();
         const tl = gsap.timeline({ paused: true });
 
-        tl.to(circle, { scale: 1.2, xPercent: -50, duration: 2, ease, overwrite: 'auto' }, 0);
+        tl.to(circle, { scale: 1.2, xPercent: -50, duration: 0.3, ease, overwrite: 'auto' }, 0);
 
         if (label) {
-          tl.to(label, { y: -(h + 8), duration: 2, ease, overwrite: 'auto' }, 0);
+          tl.to(label, { y: -(h + 8), duration: 0.3, ease, overwrite: 'auto' }, 0);
         }
 
-        if (white) {
-          gsap.set(white, { y: Math.ceil(h + 100), opacity: 0 });
-          tl.to(white, { y: 0, opacity: 1, duration: 2, ease, overwrite: 'auto' }, 0);
+        if (hoverLabel) {
+          gsap.set(hoverLabel, { y: Math.ceil(h + 20), opacity: 0 });
+          tl.to(hoverLabel, { y: 0, opacity: 1, duration: 0.3, ease, overwrite: 'auto' }, 0);
         }
 
         tlRefs.current[index] = tl;
@@ -91,41 +87,18 @@ const PillNav = ({
 
     const menu = mobileMenuRef.current;
     if (menu) {
-      gsap.set(menu, { visibility: 'hidden', opacity: 0, scaleY: 1 });
-    }
-
-    if (initialLoadAnimation) {
-      const logoEl = logoRef.current;
-      const navItems = navItemsRef.current;
-
-      if (logoEl) {
-        gsap.set(logoEl, { scale: 0 });
-        gsap.to(logoEl, {
-          scale: 1,
-          duration: 0.6,
-          ease,
-        });
-      }
-
-      if (navItems) {
-        gsap.set(navItems, { width: 0, overflow: 'hidden' });
-        gsap.to(navItems, {
-          width: 'auto',
-          duration: 0.6,
-          ease,
-        });
-      }
+      gsap.set(menu, { visibility: 'hidden', opacity: 0, scaleY: 0.95 });
     }
 
     return () => window.removeEventListener('resize', onResize);
-  }, [items, ease, initialLoadAnimation]);
+  }, [items, ease]);
 
   const handleEnter = (i) => {
     const tl = tlRefs.current[i];
     if (!tl) return;
     activeTweenRefs.current[i]?.kill();
     activeTweenRefs.current[i] = tl.tweenTo(tl.duration(), {
-      duration: 0.3,
+      duration: 0.25,
       ease,
       overwrite: 'auto',
     });
@@ -142,19 +115,6 @@ const PillNav = ({
     });
   };
 
-  const handleLogoEnter = () => {
-    const img = logoImgRef.current;
-    if (!img) return;
-    logoTweenRef.current?.kill();
-    gsap.set(img, { rotate: 0 });
-    logoTweenRef.current = gsap.to(img, {
-      rotate: 360,
-      duration: 0.4,
-      ease,
-      overwrite: 'auto',
-    });
-  };
-
   const toggleMobileMenu = () => {
     const newState = !isMobileMenuOpen;
     setIsMobileMenuOpen(newState);
@@ -164,12 +124,14 @@ const PillNav = ({
 
     if (hamburger) {
       const lines = hamburger.querySelectorAll('.hamburger-line');
-      if (newState) {
-        gsap.to(lines[0], { rotation: 45, y: 3, duration: 0.3, ease });
-        gsap.to(lines[1], { rotation: -45, y: -3, duration: 0.3, ease });
-      } else {
-        gsap.to(lines[0], { rotation: 0, y: 0, duration: 0.3, ease });
-        gsap.to(lines[1], { rotation: 0, y: 0, duration: 0.3, ease });
+      if (lines.length >= 2) {
+        if (newState) {
+          gsap.to(lines[0], { rotation: 45, y: 3, duration: 0.25, ease });
+          gsap.to(lines[1], { rotation: -45, y: -3, duration: 0.25, ease });
+        } else {
+          gsap.to(lines[0], { rotation: 0, y: 0, duration: 0.25, ease });
+          gsap.to(lines[1], { rotation: 0, y: 0, duration: 0.25, ease });
+        }
       }
     }
 
@@ -178,12 +140,12 @@ const PillNav = ({
         gsap.set(menu, { visibility: 'visible' });
         gsap.fromTo(
           menu,
-          { opacity: 0, y: 10, scaleY: 1 },
+          { opacity: 0, y: 8, scaleY: 0.95 },
           {
             opacity: 1,
             y: 0,
             scaleY: 1,
-            duration: 0.3,
+            duration: 0.25,
             ease,
             transformOrigin: 'top center',
           }
@@ -191,8 +153,8 @@ const PillNav = ({
       } else {
         gsap.to(menu, {
           opacity: 0,
-          y: 10,
-          scaleY: 1,
+          y: 8,
+          scaleY: 0.95,
           duration: 0.2,
           ease,
           transformOrigin: 'top center',
@@ -210,46 +172,37 @@ const PillNav = ({
     if (onItemClick) {
       onItemClick(e, href);
     }
-    setIsMobileMenuOpen(false);
-  };
-
-  const cssVars = {
-    ['--base']: baseColor,
-    ['--pill-bg']: pillColor,
-    ['--hover-text']: hoveredPillTextColor,
-    ['--pill-text']: resolvedPillTextColor,
+    if (isMobileMenuOpen) {
+      toggleMobileMenu();
+    }
   };
 
   return (
-    <div className="pill-nav-container">
-      <nav className={`pill-nav ${className}`} aria-label="Primary" style={cssVars}>
+    <div className={`capsule-nav-container ${isScrolled ? 'is-scrolled' : ''} ${className}`}>
+      <nav className="capsule-nav-bar" aria-label="Main Navigation">
+        {/* LEFT BRAND SECTION */}
         <a
-          className="pill-logo"
+          className="capsule-brand"
           href={items?.[0]?.href || '#home'}
           aria-label="Home"
-          onMouseEnter={handleLogoEnter}
           onClick={(e) => handleLinkClickInternal(e, items?.[0]?.href || '#home')}
-          ref={(el) => {
-            logoRef.current = el;
-          }}
         >
+          <span className="capsule-status-dot" title="Available for Hire" />
           {logo ? (
-            <img src={logo} alt={logoAlt} ref={logoImgRef} />
-          ) : (
-            <div className="pill-logo-text" ref={logoImgRef}>
-              AK
-            </div>
-          )}
+            <img src={logo} alt={logoAlt} className="capsule-brand-avatar" />
+          ) : null}
+          <span className="capsule-brand-name">{brandName}</span>
         </a>
 
-        <div className="pill-nav-items desktop-only" ref={navItemsRef}>
-          <ul className="pill-list" role="menubar">
+        {/* CENTER NAV ITEMS (DESKTOP) */}
+        <div className="capsule-center desktop-only">
+          <ul className="capsule-nav-list" role="menubar">
             {items.map((item, i) => (
               <li key={item.href || `item-${i}`} role="none">
                 <a
                   role="menuitem"
                   href={item.href}
-                  className={`pill${activeHref === item.href ? ' is-active' : ''}`}
+                  className={`capsule-pill${activeHref === item.href ? ' is-active' : ''}`}
                   aria-label={item.ariaLabel || item.label}
                   onMouseEnter={() => handleEnter(i)}
                   onMouseLeave={() => handleLeave(i)}
@@ -274,18 +227,44 @@ const PillNav = ({
           </ul>
         </div>
 
-        <button
-          className="mobile-menu-button mobile-only"
-          onClick={toggleMobileMenu}
-          aria-label="Toggle menu"
-          ref={hamburgerRef}
-        >
-          <span className="hamburger-line" />
-          <span className="hamburger-line" />
-        </button>
+        {/* RIGHT ACTIONS SECTION */}
+        <div className="capsule-right">
+          {toggleTheme && (
+            <button
+              className="capsule-theme-btn"
+              onClick={toggleTheme}
+              aria-label="Toggle Dark/Light Mode"
+              title="Toggle Theme"
+            >
+              {theme === 'light' ? '🌙' : '☀️'}
+            </button>
+          )}
+
+          <a
+            href={resumeUrl}
+            download
+            className="capsule-cv-btn"
+            aria-label="Download CV"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            CV <span className="cv-arrow">↗</span>
+          </a>
+
+          <button
+            className="mobile-menu-button mobile-only"
+            onClick={toggleMobileMenu}
+            aria-label="Toggle Menu"
+            ref={hamburgerRef}
+          >
+            <span className="hamburger-line" />
+            <span className="hamburger-line" />
+          </button>
+        </div>
       </nav>
 
-      <div className="mobile-menu-popover mobile-only" ref={mobileMenuRef} style={cssVars}>
+      {/* MOBILE DROPDOWN MENU */}
+      <div className="mobile-menu-popover mobile-only" ref={mobileMenuRef}>
         <ul className="mobile-menu-list">
           {items.map((item, i) => (
             <li key={item.href || `mobile-item-${i}`}>

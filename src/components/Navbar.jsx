@@ -3,26 +3,29 @@ import PillNav from './PillNav';
 import abLogo from '../assets/ab.jpg';
 
 const navItems = [
-  { label: 'Home', href: '#home' },
-  { label: 'About', href: '#about' },
-  { label: 'Experience', href: '#experience' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Coding', href: '#coding' },
-  { label: 'Awards', href: '#achievements' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'ABOUT', href: '#about' },
+  { label: 'SKILLS', href: '#skills' },
+  { label: 'CAREER', href: '#experience' },
+  { label: 'WORK', href: '#projects' },
+  { label: 'CODING', href: '#coding' },
+  { label: 'MERIT', href: '#achievements' },
+  { label: 'CONTACT', href: '#contact' },
 ];
 
 export default function Navbar({ theme, toggleTheme }) {
   const [activeSection, setActiveSection] = useState('home');
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
+      const scrollY = window.pageYOffset;
+      setIsScrolled(scrollY > 25);
+
       const sections = document.querySelectorAll('section[id]');
       let current = 'home';
-      const scrollPosition = window.pageYOffset + 220;
+      const scrollPosition = scrollY + 220;
       sections.forEach((section) => {
-        const sectionTop = section.getBoundingClientRect().top + window.pageYOffset;
+        const sectionTop = section.getBoundingClientRect().top + scrollY;
         if (scrollPosition >= sectionTop) {
           current = section.getAttribute('id') || 'home';
         }
@@ -51,33 +54,17 @@ export default function Navbar({ theme, toggleTheme }) {
   };
 
   return (
-    <header className="navbar">
-      <div className="container nav-container">
-        <PillNav
-          logo={abLogo}
-          logoAlt="AB Monogram"
-          items={navItems}
-          activeHref={`#${activeSection}`}
-          onItemClick={handleItemClick}
-          baseColor={theme === 'dark' ? '#050507' : '#ffffff'}
-          pillColor={theme === 'dark' ? '#0e0e11' : '#f4f4f7'}
-          pillTextColor={theme === 'dark' ? '#ffffff' : '#09090b'}
-          hoveredPillTextColor="#ffffff"
-          ease="power3.easeOut"
-          initialLoadAnimation={true}
-        />
-
-        <div className="nav-actions">
-          <button
-            className="theme-toggle-btn"
-            onClick={toggleTheme}
-            aria-label="Toggle dark/light theme"
-            title="Toggle theme"
-          >
-            <i className={theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon'}></i>
-          </button>
-        </div>
-      </div>
-    </header>
+    <PillNav
+      logo={abLogo}
+      logoAlt="AB Monogram"
+      brandName="ABDUL KANI"
+      items={navItems}
+      activeHref={`#${activeSection}`}
+      onItemClick={handleItemClick}
+      theme={theme}
+      toggleTheme={toggleTheme}
+      resumeUrl="Copy of Abdul's resume.pdf"
+      isScrolled={isScrolled}
+    />
   );
 }
