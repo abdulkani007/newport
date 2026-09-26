@@ -96,15 +96,18 @@
 /* Responsive tweaks for touch & mobile viewports */
 @media (max-width: 768px) {
   .threed-section-scene {
-    perspective: none;
+    perspective: none !important;
     padding: 16px 0;
-    transform-style: flat;
+    transform: none !important;
+    transform-style: flat !important;
   }
 
   .threed-section-page {
     padding: 24px 16px;
     border-radius: 18px;
-    transform-style: flat;
+    transform: none !important;
+    transform-style: flat !important;
+    opacity: 1 !important;
   }
 
   .threed-page-shadow,
@@ -115,6 +118,8 @@
   .threed-page-content {
     z-index: 20 !important;
     pointer-events: auto !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 

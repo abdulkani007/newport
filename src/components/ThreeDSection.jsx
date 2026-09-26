@@ -18,11 +18,10 @@ const ThreeDSection = ({ children, id, className = '' }) => {
     const glow = glowRef.current;
     if (!section || !page) return;
 
-    // Respect reduced motion
+    // Respect reduced motion & disable 3D page tilt scrubbing on mobile for crystal clear scrolling
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
-
     const isMobile = window.innerWidth <= 768;
+    if (prefersReducedMotion || isMobile) return;
 
     // 3D Perspective Scroll parameters
     const enterRotateX = isMobile ? 14 : 26;
