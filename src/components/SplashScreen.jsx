@@ -6,6 +6,41 @@ export default function SplashScreen({ onComplete }) {
   const [progress, setProgress] = useState(0);
   const [isExiting, setIsExiting] = useState(false);
   const [isDone, setIsDone] = useState(false);
+  const [transparentLogoUrl, setTransparentLogoUrl] = useState(null);
+
+  useEffect(() => {
+    // Process ab.jpg to strip out non-transparent background pixels dynamically
+    const img = new Image();
+    img.src = abLogo;
+    img.onload = () => {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.naturalWidth || 600;
+        canvas.height = img.naturalHeight || 350;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+
+        const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imgData.data;
+
+        for (let i = 0; i < data.length; i += 4) {
+          const r = data[i];
+          const g = data[i + 1];
+          const b = data[i + 2];
+          // Remove dark background pixels (threshold 60)
+          if (r < 60 && g < 60 && b < 60) {
+            data[i + 3] = 0; // Set Alpha to 0 (100% transparent)
+          }
+        }
+
+        ctx.putImageData(imgData, 0, 0);
+        setTransparentLogoUrl(canvas.toDataURL('image/png'));
+      } catch (err) {
+        console.warn('Logo background stripping fallback:', err);
+        setTransparentLogoUrl(abLogo);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     // Lock scroll during splash load
@@ -46,9 +81,13 @@ export default function SplashScreen({ onComplete }) {
       <div className="splash-ambient-glow" />
 
       <div className="splash-content">
-        {/* Seamless AB Monogram Logo */}
+        {/* Seamless Transparent Monogram AB Logo */}
         <div className="splash-logo-wrapper">
-          <img src={abLogo} alt="AB Monogram" className="splash-logo-img" />
+          <img
+            src={transparentLogoUrl || abLogo}
+            alt="AB Monogram"
+            className="splash-logo-img"
+          />
         </div>
 
         <h1 className="splash-title">ABDUL KANI</h1>
