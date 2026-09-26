@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import abLogo from '../../ab.jpg';
+import abLogo from '../assets/ab.jpg';
 import './SplashScreen.css';
 
 export default function SplashScreen({ onComplete }) {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PillNav from './PillNav';
+import abLogo from '../assets/ab.jpg';
 
 const navItems = [
   { label: 'Home', href: '#home' },
@@ -53,6 +54,8 @@ export default function Navbar({ theme, toggleTheme }) {
     <header className="navbar">
       <div className="container nav-container">
         <PillNav
+          logo={abLogo}
+          logoAlt="AB Monogram"
           items={navItems}
           activeHref={`#${activeSection}`}
           onItemClick={handleItemClick}
