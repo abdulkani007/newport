@@ -90,8 +90,6 @@ export default function SplashScreen({ onComplete }) {
           />
         </div>
 
-        <h1 className="splash-title">ABDUL KANI</h1>
-
         {/* Sleek Minimal Loader Line & Counter */}
         <div className="splash-loader-block">
           <div className="splash-progress-track">
