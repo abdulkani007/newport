@@ -1047,27 +1047,31 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .coding-card {
-  padding: 28px;
+  padding: 24px 22px;
   text-decoration: none;
   color: inherit;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  box-sizing: border-box;
+  min-height: 100%;
 }
 
 .coding-card-top {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
   margin-bottom: 20px;
 }
 
 .coding-platform-title {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   font-family: var(--font-heading);
-  font-size: 1.5rem;
+  font-size: 1.35rem;
   font-weight: 700;
   color: var(--text-primary);
 }
@@ -1078,7 +1082,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .stat-counter-wrapper {
   display: flex;
-  gap: 28px;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .stat-counter-item {
@@ -1087,47 +1092,70 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .stat-number {
-  font-size: 2.2rem;
+  font-size: 2rem;
   font-weight: 800;
   color: var(--text-primary);
   line-height: 1.1;
 }
 
 .stat-label {
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--text-muted);
+  letter-spacing: 0.12em;
+  color: var(--text-secondary);
   margin-top: 4px;
   font-weight: 600;
 }
 
+[data-theme="light"] .stat-label {
+  color: #475569;
+}
+
 .rank-badge {
-  font-size: 0.82rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.1em;
   color: var(--primary);
-  margin-top: 12px;
-  font-weight: 600;
+  font-weight: 700;
+  margin-top: 0;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: var(--primary-subtle, rgba(239, 68, 68, 0.12));
+  border: 1px solid var(--primary-border, rgba(239, 68, 68, 0.25));
+  white-space: nowrap;
+  line-height: 1.3;
+}
+
+[data-theme="light"] .rank-badge {
+  color: #dc2626;
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.2);
 }
 
 .hackerrank-badges {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 12px;
+  margin-top: 14px;
 }
 
 .badge-item {
-  padding: 6px 12px;
+  padding: 5px 10px;
   border-radius: 6px;
   border: 1px solid var(--card-border);
   background: var(--badge-bg);
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: var(--text-secondary);
+  gap: 6px;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+[data-theme="light"] .badge-item {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #0f172a;
 }
 
 .badge-stars {
@@ -1786,5 +1814,29 @@ html, body {
   .status-badge {
     font-size: 0.62rem;
     padding: 5px 10px;
+  }
+  .coding-card {
+    padding: 18px 16px;
+  }
+  .coding-platform-title {
+    font-size: 1.2rem;
+  }
+  .stat-counter-wrapper {
+    gap: 12px;
+    justify-content: space-between;
+  }
+  .stat-number {
+    font-size: 1.65rem;
+  }
+  .stat-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+  }
+  .hackerrank-badges {
+    gap: 6px;
+  }
+  .badge-item {
+    padding: 4px 8px;
+    font-size: 0.74rem;
   }
 }
