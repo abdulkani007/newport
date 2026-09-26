@@ -57,7 +57,7 @@ export default function Navbar({ theme, toggleTheme }) {
     <PillNav
       logo={abLogo}
       logoAlt="AB Monogram"
-      brandName="ABDUL KANI"
+      brandName="Abdul Kani"
       items={navItems}
       activeHref={`#${activeSection}`}
       onItemClick={handleItemClick}

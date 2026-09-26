@@ -112,8 +112,14 @@
 }
 
 .capsule-brand-name {
-  font-weight: 800;
+  font-family: 'Great Vibes', 'Alex Brush', 'Dancing Script', cursive;
+  font-size: 1.55rem;
+  font-weight: 600;
   white-space: nowrap;
+  text-transform: none;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  color: inherit;
 }
 
 /* Center Nav Items */
@@ -438,8 +444,8 @@
   }
 
   .capsule-brand-name {
-    font-size: 0.74rem;
-    letter-spacing: 0.04em;
+    font-size: 1.35rem;
+    letter-spacing: 0.02em;
   }
 
   .capsule-right {
@@ -483,7 +489,7 @@
   }
 
   .capsule-brand-name {
-    font-size: 0.7rem;
+    font-size: 1.18rem;
   }
 
   .capsule-cv-btn {
