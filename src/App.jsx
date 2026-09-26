@@ -15,6 +15,7 @@ import BackToTop from './components/BackToTop';
 import Toast from './components/Toast';
 import ThreeDSection from './components/ThreeDSection';
 import CustomCursor from './components/CustomCursor';
+import SplashScreen from './components/SplashScreen';
 import Lenis from 'lenis';
 
 export default function App() {
@@ -83,6 +84,7 @@ export default function App() {
 
   return (
     <>
+      <SplashScreen />
       <Navbar theme={theme} toggleTheme={toggleTheme} />
 
       <ThreeDSection>
